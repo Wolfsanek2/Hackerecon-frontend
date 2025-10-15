@@ -1,0 +1,9 @@
+.llm-panel {
+    display: flex;
+
+    &__content {
+        padding: 1rem;
+        background-color: var(--active-btn-bg-color);
+        border-radius: 1rem;
+    }
+}

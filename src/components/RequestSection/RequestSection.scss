@@ -1,0 +1,33 @@
+.request-section {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    &__headers-title {
+        margin: 1rem 0;
+        font-weight: normal;
+    }
+
+    &__headers-content {
+        display: inline-flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem;
+        background-color: var(--active-btn-bg-color);
+        border-radius: 1rem;
+    }
+
+    &__body-title {
+        margin: 1rem 0;
+        font-weight: normal;
+    }
+
+    &__body-content {
+        display: inline-flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem;
+        background-color: var(--active-btn-bg-color);
+        border-radius: 1rem;
+    }
+}

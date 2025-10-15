@@ -1,0 +1,11 @@
+.request-list {
+    width: 100%;
+    border-left: var(--border);
+    border-right: var(--border);
+
+    &__header {
+        padding: 1rem;
+        text-align: start;
+        border-bottom: var(--border);
+    }
+}

@@ -1,97 +1,44 @@
-import type { RequestData } from '../../types/electron.d.ts';
+import { openRequestDetails } from '@store/slices/appSlice';
+import './Request.scss';
+import type { RequestData } from '@type';
+import { useAppDispatch } from '@/hooks';
+import { MethodBadge, StatusBadge } from '@components';
 
 interface RequestProps {
 	request: RequestData;
 }
 
-export const Request: React.FC<RequestProps> = ({ request }) => {
-	const getStatusColor = (request: RequestData): string => {
-		if (request.error) return '#ff4444';
-		if (request.response) {
-			return request.response.statusCode >= 400 ? '#ff8800' : '#44ff44';
-		}
-		return '#8888ff';
-	};
-
-	const getMethodColor = (method: string): string => {
-		const colors: Record<string, string> = {
-			GET: '#61affe',
-			POST: '#49cc90',
-			PUT: '#fca130',
-			DELETE: '#f93e3e',
-			PATCH: '#50e3c2',
-			HEAD: '#9012fe',
-			OPTIONS: '#0d5aa7',
-		};
-		return colors[method] || '#61affe';
-	};
+const Request: React.FC<RequestProps> = ({ request }) => {
+	const dispatch = useAppDispatch();
 
 	return (
-		<div key={request.id} className="request-item" style={{ margin: 20 }}>
-			<div
-				className="request-header"
-				style={{ gap: 10, display: 'flex', justifyContent: 'center' }}
-			>
-				<span
-					className="method-badge"
-					style={{
-						backgroundColor: getMethodColor(request.method),
-					}}
-				>
-					{request.method}
-				</span>
-				<span className="url">{request.url}</span>
-				<span
-					className="status-indicator"
-					style={{
-						backgroundColor: getStatusColor(request),
-					}}
-				></span>
-			</div>
-
-			<div className="request-details">
-				<div className="detail-row">
-					<strong>Time:</strong>{' '}
+		<tr
+			key={request.id}
+			className="request"
+			onClick={() => dispatch(openRequestDetails(request.id))}
+		>
+			<td className="request__method-container request__details-container">
+				<MethodBadge
+					className="request__method"
+					method={request.method}
+				/>
+			</td>
+			<td className="request__url-container request__details-container">
+				<span className="request__url">{request.url}</span>
+			</td>
+			<td className="request__status-container request__details-container">
+				<StatusBadge
+					className="request__status"
+					status={request.response!.statusCode}
+				/>
+			</td>
+			<td className="request__date-container request__details-container">
+				<span className="request__date">
 					{new Date(request.timestamp).toLocaleTimeString()}
-				</div>
-				<div className="detail-row">
-					<strong>Resource Type:</strong> {request.resourceType}
-				</div>
-
-				{request.response && (
-					<div className="detail-row">
-						<strong>Status:</strong>
-						<span
-							className={`status-code ${
-								request.response.statusCode >= 400
-									? 'error'
-									: 'success'
-							}`}
-						>
-							{request.response.statusCode}{' '}
-							{request.response.statusLine}
-						</span>
-					</div>
-				)}
-
-				{request.error && (
-					<div className="detail-row error">
-						<strong>Error: {request.error.error}</strong>
-					</div>
-				)}
-
-				{request.headers && Object.keys(request.headers).length > 0 && (
-					<div className="detail-row">
-						<strong>Headers:</strong>
-						<pre
-							className="headers"
-							style={{ wordWrap: 'break-word' }}
-						>
-							{JSON.stringify(request.headers, null, 2)}
-						</pre>
-					</div>
-				)}
-			</div>
-		</div>
+				</span>
+			</td>
+		</tr>
 	);
 };
+
+export default Request;

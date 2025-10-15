@@ -1,0 +1,64 @@
+.proxy-panel {
+    &_hidden {
+        display: none;
+    }
+
+    &__container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin: 0 2rem;
+    }
+    
+    &__header-title {
+        font-weight: normal;
+    }
+    
+    &__header-description {
+        font-weight: normal;
+        color: var(--text-secondary-color);
+    }
+    
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    &__address {
+        display: flex;
+        gap: 2rem;
+    }
+
+    &__host {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        &-value {
+            background-color: var(--active-btn-bg-color);
+            padding: 0.25rem;
+            border-radius: 0.5rem;
+        }
+    }
+
+    &__host-title {
+        font-weight: 600;
+    }
+
+    &__port {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        &-value {
+            background-color: var(--active-btn-bg-color);
+            padding: 0.25rem;
+            border-radius: 0.5rem;
+        }
+    }
+
+    &__port-title {
+        font-weight: 600;
+    }
+}

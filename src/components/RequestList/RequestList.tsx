@@ -1,27 +1,26 @@
 import React from 'react';
-import type { RequestData } from '../../types/electron.d.ts';
-import { Request } from '../Request/Request.tsx';
+import './RequestList.scss';
+import { Request } from '@components';
+import { useAppSelector } from '@hooks';
 
-interface RequestListProps {
-	requests: RequestData[];
-}
-
-const RequestList: React.FC<RequestListProps> = ({ requests }) => {
+const RequestList: React.FC = () => {
+	const requests = useAppSelector((state) => state.app.requestsArray);
 	return (
-		<div className="request-list">
-			{requests.length === 0 ? (
-				<div className="empty-state">
-					<p>
-						No requests intercepted yet. Make some HTTP requests to
-						see them here.
-					</p>
-				</div>
-			) : (
-				requests.map((request) => (
+		<table className="request-list">
+			<thead>
+				<tr>
+					<th className="request-list__header">Метод</th>
+					<th className="request-list__header">URL</th>
+					<th className="request-list__header">Статус</th>
+					<th className="request-list__header">Время</th>
+				</tr>
+			</thead>
+			<tbody>
+				{requests.map((request) => (
 					<Request key={request.id} request={request} />
-				))
-			)}
-		</div>
+				))}
+			</tbody>
+		</table>
 	);
 };
 
