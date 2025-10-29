@@ -1,14 +1,15 @@
 export interface RequestData {
-	id: number;
+	id: string;
 	url: string;
 	method: string;
 	timestamp: string;
-	resourceType: string;
+	resourceType?: string;
 	headers: Record<string, string>;
 	response?: ResponseData;
 	body?: string;
 	llmAnalysis: string;
 	error?: ErrorData;
+	hasVulnerability: boolean;
 }
 
 export interface ResponseData {
@@ -26,3 +27,5 @@ export interface ErrorData {
 }
 
 export type OpenedSection = 'request' | 'response' | 'llmAnalysis';
+
+export * from './websocket';

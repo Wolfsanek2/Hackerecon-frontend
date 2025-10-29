@@ -1,8 +1,9 @@
 import { openRequestDetails } from '@store/slices/appSlice';
-import './Request.scss';
+import styles from './Request.module.scss';
 import type { RequestData } from '@type';
 import { useAppDispatch } from '@/hooks';
 import { MethodBadge, StatusBadge } from '@components';
+import warningIcon from '@assets/warning.svg';
 
 interface RequestProps {
 	request: RequestData;
@@ -14,28 +15,47 @@ const Request: React.FC<RequestProps> = ({ request }) => {
 	return (
 		<tr
 			key={request.id}
-			className="request"
+			className={`${styles['request']}`}
 			onClick={() => dispatch(openRequestDetails(request.id))}
 		>
-			<td className="request__method-container request__details-container">
+			<td
+				className={`${styles['request__method-container']} ${styles['request__details-container']}`}
+			>
 				<MethodBadge
-					className="request__method"
+					className={`${styles['request__method']}`}
 					method={request.method}
 				/>
 			</td>
-			<td className="request__url-container request__details-container">
-				<span className="request__url">{request.url}</span>
+			<td
+				className={`${styles['request__url-container']} ${styles['request__details-container']}`}
+			>
+				<span className={`${styles['request__url']}`}>
+					{request.url}
+				</span>
 			</td>
-			<td className="request__status-container request__details-container">
+			<td
+				className={`${styles['request__status-container']} ${styles['request__details-container']}`}
+			>
 				<StatusBadge
-					className="request__status"
+					className={`${styles['request__status']}`}
 					status={request.response!.statusCode}
 				/>
 			</td>
-			<td className="request__date-container request__details-container">
-				<span className="request__date">
+			<td
+				className={`${styles['request__date-container']} ${styles['request__details-container']}`}
+			>
+				<span className={`${styles['request__date']}`}>
 					{new Date(request.timestamp).toLocaleTimeString()}
 				</span>
+			</td>
+			<td
+				className={`${styles['request__warning-container']} ${styles['request__details-container']}`}
+			>
+				{request.hasVulnerability ? (
+					<img src={warningIcon} className="img" />
+				) : (
+					''
+				)}
 			</td>
 		</tr>
 	);

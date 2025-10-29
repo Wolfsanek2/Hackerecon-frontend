@@ -10,6 +10,7 @@ export default defineConfig({
 			scss: {
 				additionalData: `
 					// @import "./src/styles";
+					@use "@styles/variables" as *;
 				`,
 			},
 		},
@@ -22,6 +23,8 @@ export default defineConfig({
 			'@store': path.resolve(__dirname, './src/store'),
 			'@hooks': path.resolve(__dirname, './src/hooks'),
 			'@assets': path.resolve(__dirname, './src/assets'),
+			'@styles': path.resolve(__dirname, './src/styles'),
+			'@api': path.resolve(__dirname, './src/api'),
 		},
 	},
 });

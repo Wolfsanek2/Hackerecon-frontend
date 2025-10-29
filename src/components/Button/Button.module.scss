@@ -1,0 +1,22 @@
+.button {
+    background-color: $btn-bg-color;
+    font-family: inherit;
+    font-weight: $font-weight-medium;
+    transition: $active-bg-transition;
+    
+    &_text {
+        padding: 0.5rem;
+        border: $btn-border;
+        border-radius: 1rem;
+    }
+
+    &_img {
+        border: none;
+        padding: 0;
+        border-radius: 50%;
+    }
+
+    &:hover {
+        background-color: $active-btn-bg-color;
+    }
+}

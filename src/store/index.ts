@@ -1,15 +1,19 @@
-import { configureStore } from '@reduxjs/toolkit';
-// import { requestReducer } from './slices/requestsSlice';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { appReducer } from './slices/appSlice';
-// import { requestDetailsReducer } from './slices/requestDetailsSlice';
+import { websocketReducer } from './slices/websocketSlice';
+import { websocketMiddleware } from './middleware/websocket';
+
+const rootReducer = combineReducers({
+	app: appReducer,
+	websocket: websocketReducer,
+});
 
 export const store = configureStore({
-	reducer: {
-		// requests: requestReducer,
-		app: appReducer,
-		// requestDetails: requestDetailsReducer,
+	reducer: rootReducer,
+	middleware: (getDefaultMiddleware) => {
+		return getDefaultMiddleware().concat(websocketMiddleware);
 	},
 });
 
-export type RootState = ReturnType<typeof store.getState>;
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = typeof store.dispatch;

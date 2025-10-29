@@ -2,7 +2,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 2rem;
+    padding: 2rem;
+    border-bottom: $border;
 
     &__left-side {
         display: flex;

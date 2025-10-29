@@ -12,6 +12,7 @@ import RequestSection from './RequestSection';
 import ResponseSection from './ResponseSection';
 import LLMPanel from './LLMPanel';
 import ProxyPanel from './ProxyPanel';
+import Code from './Code';
 
 export {
 	App,
@@ -28,4 +29,5 @@ export {
 	ResponseSection,
 	LLMPanel,
 	ProxyPanel,
+	Code,
 };

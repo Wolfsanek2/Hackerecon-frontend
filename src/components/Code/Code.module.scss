@@ -1,0 +1,8 @@
+.code {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background-color: $code-bg-color;
+    border-radius: 1rem;
+}

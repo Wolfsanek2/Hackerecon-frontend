@@ -1,5 +1,6 @@
-import { useAppSelector } from '@/hooks';
 import './ResponseSection.scss';
+import { useAppSelector } from '@/hooks';
+import { Code } from '@components';
 
 const ResponseSection: React.FC = () => {
 	const response = useAppSelector(
@@ -11,19 +12,17 @@ const ResponseSection: React.FC = () => {
 				<h3 className="response-section__headers-title">
 					Заголовки запроса
 				</h3>
-				<div className="response-section__headers-content">
+				<Code className="response-section__headers-content">
 					{Object.entries(response.headers).map(([key, value]) => {
 						return (
 							<div className="response-section__header">{`${key}: ${value}`}</div>
 						);
 					})}
-				</div>
+				</Code>
 			</div>
 			<div className="response-section__body-container">
 				<h3 className="response-section__body-title">Тело запроса</h3>
-				<div className="response-section__body-content">
-					{response.body}
-				</div>
+				<Code>{response.body}</Code>
 			</div>
 		</div>
 	);

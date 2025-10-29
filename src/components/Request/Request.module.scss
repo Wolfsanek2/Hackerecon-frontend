@@ -1,0 +1,20 @@
+@use '@styles/variables' as *;
+
+.request {
+    transition: $active-bg-transition;
+
+    &:hover {
+        background-color: $active-btn-bg-color;
+    }
+
+    &__details-container {
+        padding: 1rem;
+        align-items: center;
+        border-bottom: $border;
+    }
+
+    &__warning-container {
+        width: 2rem;
+        height: 2rem;
+    }
+}

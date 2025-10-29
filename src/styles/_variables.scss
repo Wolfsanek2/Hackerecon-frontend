@@ -1,8 +1,25 @@
-:root {
-    --bg-color: white;
-    --btn-bg-color: white;
-    --btn-border: 0.05rem solid black;
-    --active-btn-bg-color: #e9ebef;
-    --text-secondary-color: #717182;
-    --border: 1px solid #dee1e7;
-}
+// Colors
+$color-accent: #030213;
+$bg-color: white;
+$title-bg-color: #f5f6f9;
+$active-bg-color: #e9ebef;
+$muted-color: #ececf0;
+
+// Font
+$font-family-regular: "Inter";
+$font-weight-medium: 500;
+$text-secondary-color: #717182;
+
+// Border
+$border: 1px solid #dee1e7;
+
+
+$input-bg-color: #f3f3f5;
+$code-bg-color: $muted-color;
+
+// Button
+$btn-bg-color: white;
+$active-btn-bg-color: $active-bg-color;
+$btn-border: 0.05rem solid #d3d3d3;
+
+$active-bg-transition: background-color ease-out 0.1s;

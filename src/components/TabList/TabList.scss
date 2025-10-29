@@ -2,23 +2,26 @@
     &__header {
         display: inline-flex;
         gap: 1rem;
-        padding: 0.3rem 0.55rem;
+        padding: 0.5rem;
         margin: 1rem;
-        background-color: var(--active-btn-bg-color);
+        background-color: $active-btn-bg-color;
         border-radius: 1rem;
     }
 
     &__title-button {
-        padding: 0.25rem 0.5rem;
-        background-color: var(--active-btn-bg-color);
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        background-color: $active-btn-bg-color;
         border-radius: 1rem;
+        transition: $active-bg-transition;
 
         &_active {
-            background-color: var(--bg-color);
+            background-color: $bg-color;
         }
 
         &:hover {
-            background-color: var(--bg-color);
+            background-color: $bg-color;
             cursor: default;
         }
     }

@@ -19,7 +19,11 @@
 			"@store/*": ["./src/store/*"],
 			"@hooks": ["./src/hooks/index.ts"],
 			"@hooks/*": ["./src/hooks/*"],
-			"@assets/*": ["./src/assets"]
+			"@assets/*": ["./src/assets"],
+			"@styles": ["./src/styles"],
+			"@styles/": ["./src/styles/*"],
+			"@api": ["./src/api"],
+			"@api/": ["./src/api/*"]
 		},
 
 		/* Bundler mode */

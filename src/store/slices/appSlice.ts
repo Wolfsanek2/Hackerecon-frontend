@@ -1,18 +1,24 @@
-import type { OpenedSection, RequestData } from '@/types';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
+import {
+	vulnerabilityReportToRequestData,
+	type VulnerabilityReport,
+} from '@api';
+import type { OpenedSection, RequestData } from '@/types';
 
 interface AppState {
+	backendWsUrl: string;
 	requestsArray: RequestData[];
-	requestDetailsOpened?: number;
+	requestDetailsOpened?: string;
 	openedRequestData?: RequestData;
 	openedSection: OpenedSection;
 	isProxyPanelOpened: boolean;
 }
 
 const initialState: AppState = {
+	backendWsUrl: 'ws://127.0.0.1:8081',
 	requestsArray: [
 		{
-			id: 1,
+			id: '1',
 			url: 'example.com',
 			method: 'GET',
 			headers: {
@@ -32,9 +38,10 @@ const initialState: AppState = {
 				body: 'body 2, body 2, body 2, body 2, body 2, body 2',
 			},
 			llmAnalysis: 'Это анализ от LLM',
+			hasVulnerability: true,
 		},
 		{
-			id: 2,
+			id: '2',
 			url: 'example.com/api',
 			method: 'POST',
 			headers: {},
@@ -46,6 +53,7 @@ const initialState: AppState = {
 				headers: {},
 			},
 			llmAnalysis: '',
+			hasVulnerability: false,
 		},
 	],
 	openedSection: 'request',
@@ -62,7 +70,7 @@ export const appSlice = createSlice({
 		clearRequests: (state) => {
 			state.requestsArray = [];
 		},
-		openRequestDetails: (state, action: PayloadAction<number>) => {
+		openRequestDetails: (state, action: PayloadAction<string>) => {
 			state.requestDetailsOpened = action.payload;
 			state.openedRequestData = state.requestsArray.find(
 				(request) => request.id === action.payload
@@ -81,6 +89,14 @@ export const appSlice = createSlice({
 		closeProxyPanel: (state) => {
 			state.isProxyPanelOpened = false;
 		},
+		messageRecieved: (
+			state,
+			action: PayloadAction<VulnerabilityReport>
+		) => {
+			state.requestsArray.push(
+				vulnerabilityReportToRequestData(action.payload)
+			);
+		},
 	},
 });
 
@@ -92,5 +108,6 @@ export const {
 	openSection,
 	openProxyPanel,
 	closeProxyPanel,
+	messageRecieved,
 } = appSlice.actions;
 export const appReducer = appSlice.reducer;
