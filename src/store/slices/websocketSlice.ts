@@ -1,9 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import type { VulnerabilityReport } from '@api';
+import { createAction, createSlice } from '@reduxjs/toolkit';
+
+/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
+// type Message = any;
+type Message = VulnerabilityReport;
 
 interface WebSocketState {
 	isConnected: boolean;
-	/* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-	message?: any;
 }
 
 const initialState: WebSocketState = {
@@ -14,15 +17,26 @@ const websocketSlice = createSlice({
 	name: 'websocket',
 	initialState,
 	reducers: {
-		websocketConnected: (state) => {
+		connected: (state) => {
 			state.isConnected = true;
 		},
-		websocketDisconnected: (state) => {
+		disconnected: (state) => {
 			state.isConnected = false;
 		},
 	},
 });
 
-export const { websocketConnected, websocketDisconnected } =
-	websocketSlice.actions;
+export interface ConnectPayload {
+	url: string;
+}
+
+export const connect = createAction<ConnectPayload>(
+	`${websocketSlice.name}/connect`
+);
+export const disconnect = createAction(`${websocketSlice.name}/disconnect`);
+export const messageReceived = createAction<Message>(
+	`${websocketSlice.name}/messageReceived`
+);
+
+export const { connected, disconnected } = websocketSlice.actions;
 export const websocketReducer = websocketSlice.reducer;

@@ -1,10 +1,13 @@
-import { createAction, type Middleware } from '@reduxjs/toolkit';
+import type { Middleware } from '@reduxjs/toolkit';
 import type { AppDispatch, RootState } from '@store';
 import {
-	websocketConnected,
-	websocketDisconnected,
+	connect,
+	connected,
+	disconnected,
+	messageReceived,
 } from '@store/slices/websocketSlice';
-import { messageRecieved } from '@store/slices/appSlice';
+import { addRequest } from '@store/slices/appSlice';
+import { vulnerabilityReportToRequestData } from '@api';
 
 class WebSocketService {
 	private socket: WebSocket | null = null;
@@ -13,33 +16,32 @@ class WebSocketService {
 		this.socket = new WebSocket(url);
 
 		this.socket.onopen = () => {
-			dispatch(websocketConnected());
+			dispatch(connected());
 		};
 
 		this.socket.onmessage = (event) => {
 			const message = JSON.parse(event.data);
-			dispatch(messageRecieved(message));
+			dispatch(messageReceived(message));
 		};
 
 		this.socket.onclose = () => {
-			dispatch(websocketDisconnected());
+			dispatch(disconnected());
 		};
 	}
 }
 
 export const webSocketService = new WebSocketService();
 
-export interface ConnectPayload {
-	url: string;
-}
-export const connect = createAction<ConnectPayload>('connect');
-export const disconnect = createAction('disconnect');
-
 /* eslint-disable-next-line @typescript-eslint/no-empty-object-type */
 export const websocketMiddleware: Middleware<{}, RootState> =
 	(store) => (next) => (action) => {
 		if (connect.match(action)) {
 			webSocketService.connect(action.payload.url, store.dispatch);
+		}
+		if (messageReceived.match(action)) {
+			store.dispatch(
+				addRequest(vulnerabilityReportToRequestData(action.payload))
+			);
 		}
 
 		return next(action);

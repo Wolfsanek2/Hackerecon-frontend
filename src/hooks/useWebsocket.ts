@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { connect } from '@store/middleware/websocket';
+import { connect, disconnect } from '@store/slices/websocketSlice';
 import { useAppDispatch, useAppSelector } from '.';
 
 export const useWebsocket = (url: string) => {
@@ -10,7 +10,7 @@ export const useWebsocket = (url: string) => {
 		dispatch(connect({ url }));
 
 		return () => {
-			dispatch({ type: 'WEBSOCKET_DISCONNECT' });
+			dispatch(disconnect());
 		};
 	}, [url, dispatch]);
 

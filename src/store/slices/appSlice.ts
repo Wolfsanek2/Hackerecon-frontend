@@ -1,8 +1,4 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import {
-	vulnerabilityReportToRequestData,
-	type VulnerabilityReport,
-} from '@api';
 import type { OpenedSection, RequestData } from '@/types';
 
 interface AppState {
@@ -89,14 +85,6 @@ export const appSlice = createSlice({
 		closeProxyPanel: (state) => {
 			state.isProxyPanelOpened = false;
 		},
-		messageRecieved: (
-			state,
-			action: PayloadAction<VulnerabilityReport>
-		) => {
-			state.requestsArray.push(
-				vulnerabilityReportToRequestData(action.payload)
-			);
-		},
 	},
 });
 
@@ -108,6 +96,5 @@ export const {
 	openSection,
 	openProxyPanel,
 	closeProxyPanel,
-	messageRecieved,
 } = appSlice.actions;
 export const appReducer = appSlice.reducer;

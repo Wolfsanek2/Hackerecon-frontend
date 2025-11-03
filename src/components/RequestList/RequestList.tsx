@@ -1,12 +1,10 @@
 import React from 'react';
 import './RequestList.scss';
 import { Request } from '@components';
-import { useAppSelector, useWebsocket } from '@hooks';
+import { useAppSelector } from '@hooks';
 
 const RequestList: React.FC = () => {
 	const requests = useAppSelector((state) => state.app.requestsArray);
-	const wsUrl = useAppSelector((state) => state.app.backendWsUrl);
-	useWebsocket(wsUrl);
 	return (
 		<table className="request-list">
 			<thead>
