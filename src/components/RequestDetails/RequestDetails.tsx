@@ -48,11 +48,11 @@ const RequestDetails: React.FC = () => {
 						<div className="request-details__badges">
 							<MethodBadge
 								className="request-details__method"
-								method={request!.method}
+								method={request.method}
 							/>
 							<StatusBadge
 								className="request-details__status"
-								status={request.response!.statusCode}
+								status={request.status}
 							/>
 						</div>
 					</div>

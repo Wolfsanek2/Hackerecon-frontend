@@ -24,8 +24,8 @@ const initialState: AppState = {
 			timestamp: new Date().toISOString(),
 			resourceType: 'script',
 			body: 'body 1, body 1, body 1, body 1, body 1, body 1',
-			response: {
-				statusCode: 200,
+			responseDetails: {
+				status: 200,
 				statusLine: 'OK',
 				headers: {
 					key3: 'value 3',
@@ -43,8 +43,8 @@ const initialState: AppState = {
 			headers: {},
 			timestamp: new Date().toISOString(),
 			resourceType: 'json',
-			response: {
-				statusCode: 404,
+			responseDetails: {
+				status: 404,
 				statusLine: 'Not found',
 				headers: {},
 			},

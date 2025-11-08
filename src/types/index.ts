@@ -1,29 +1,22 @@
+export type RiskLevel = 'low' | 'medium' | 'high' | 'critical';
+
 export interface RequestData {
 	id: string;
 	url: string;
 	method: string;
+	status: number;
 	timestamp: string;
-	resourceType?: string;
-	headers: Record<string, string>;
-	response?: ResponseData;
-	body?: string;
-	llmAnalysis: string;
-	error?: ErrorData;
+	requestDetails: RequestResponseDetails;
+	responseDetails: RequestResponseDetails;
 	hasVulnerability: boolean;
+	riskLevel: string;
+	llmAnalysis: string;
 }
 
-export interface ResponseData {
-	statusCode: number;
-	statusLine: string;
+export interface RequestResponseDetails {
 	headers: Record<string, string>;
+	resourceType: string;
 	body?: string;
-}
-
-export interface ErrorData {
-	id: number;
-	url: string;
-	error: string;
-	timestamp: string;
 }
 
 export type OpenedSection = 'request' | 'response' | 'llmAnalysis';

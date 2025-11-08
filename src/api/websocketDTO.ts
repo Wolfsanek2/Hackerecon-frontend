@@ -1,11 +1,21 @@
-import type { RequestData } from '@/types';
+import type { RequestData, RequestResponseDetails, RiskLevel } from '@/types';
+
+export type Headers = Record<string, string>;
+
+export interface RequestResponseInfo {
+	url: string;
+	method: string;
+	status_code: number;
+	request_headers: Headers;
+	response_headers: Headers;
+	request_body?: string;
+	response_body?: string;
+}
 
 export interface SecurityCheckItem {
-	checkName: string;
+	action: string;
 	description: string;
-	priority: string;
-	instructions: string;
-	expectedResult: string;
+	expected: string;
 }
 
 export interface ExtractedSecret {
@@ -16,43 +26,62 @@ export interface ExtractedSecret {
 	location: string;
 }
 
-export interface DataObject {
-	name: string;
-	fields: string[];
-}
-
 export interface SecurityAnalysisResponse {
-	url: string;
-	hasVulnerability: boolean;
-	riskLevel: string;
-	aiComment: string;
-	securityChecklist: SecurityCheckItem[];
-	vulnerabilityTypes: string[];
-	confidenceScore: number;
-	recommendations: string[];
-	extractedSecrets: ExtractedSecret[];
+	has_vulnerability: boolean;
+	risk_level: RiskLevel;
+	ai_comment: string;
+	security_checklist?: SecurityCheckItem[];
+	vulnerability_types?: string[];
+	confidence_score?: number;
+	extracted_secrets?: ExtractedSecret[];
 	timestamp: string;
-	identifiedUserRole: string;
-	identifiedDataObjects: DataObject[];
+	identified_user_role?: string;
 }
 
 export interface VulnerabilityReport {
 	id: string;
-	timeStamp: string;
-	sourceProxy: string;
-	analysisResult: SecurityAnalysisResponse;
+	timestamp: string;
+	analysis_result: SecurityAnalysisResponse;
 }
 
-export const vulnerabilityReportToRequestData = (
-	vulnerabilityReport: VulnerabilityReport
-): RequestData => {
+export interface ReportDTO {
+	report: VulnerabilityReport;
+	request_response: RequestResponseInfo;
+}
+
+export const requestResponseToRequestDetails = (
+	requestResponse: RequestResponseInfo
+): RequestResponseDetails => {
 	return {
-		id: vulnerabilityReport.id,
-		url: vulnerabilityReport.analysisResult.url,
-		method: 'GET',
-		headers: {},
-		timestamp: vulnerabilityReport.timeStamp,
-		llmAnalysis: vulnerabilityReport.analysisResult.aiComment,
-		hasVulnerability: vulnerabilityReport.analysisResult.hasVulnerability,
+		headers: requestResponse.request_headers,
+		resourceType: requestResponse.request_headers['resourceType'] || '',
+		body: requestResponse.request_body || '',
+	};
+};
+
+export const requestResponseToResponseData = (
+	requestResponse: RequestResponseInfo
+): RequestResponseDetails => {
+	return {
+		headers: requestResponse.response_headers,
+		resourceType: requestResponse.response_headers['resourceType'] || '',
+		body: requestResponse.response_body || '',
+	};
+};
+
+export const reportDtoToRequestData = (reportDto: ReportDTO): RequestData => {
+	const { report, request_response: requestResponse } = reportDto;
+	const analysisResult = report.analysis_result;
+	return {
+		id: report.id,
+		url: requestResponse.url,
+		method: requestResponse.method,
+		status: requestResponse.status_code,
+		timestamp: report.timestamp,
+		requestDetails: requestResponseToRequestDetails(requestResponse),
+		responseDetails: requestResponseToResponseData(requestResponse),
+		hasVulnerability: analysisResult.has_vulnerability,
+		riskLevel: analysisResult.risk_level,
+		llmAnalysis: report.analysis_result.ai_comment,
 	};
 };

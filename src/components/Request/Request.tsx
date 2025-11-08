@@ -38,7 +38,7 @@ const Request: React.FC<RequestProps> = ({ request }) => {
 			>
 				<StatusBadge
 					className={`${styles['request__status']}`}
-					status={request.response!.statusCode}
+					status={request.status}
 				/>
 			</td>
 			<td

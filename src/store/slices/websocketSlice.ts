@@ -1,9 +1,9 @@
-import type { VulnerabilityReport } from '@api';
+import type { ReportDTO } from '@api';
 import { createAction, createSlice } from '@reduxjs/toolkit';
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 // type Message = any;
-type Message = VulnerabilityReport;
+type Message = ReportDTO;
 
 interface WebSocketState {
 	isConnected: boolean;

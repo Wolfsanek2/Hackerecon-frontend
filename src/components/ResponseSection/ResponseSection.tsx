@@ -4,8 +4,8 @@ import { Code } from '@components';
 
 const ResponseSection: React.FC = () => {
 	const response = useAppSelector(
-		(state) => state.app.openedRequestData!.response
-	)!;
+		(state) => state.app.openedRequestData!.responseDetails
+	);
 	return (
 		<div className="response-section">
 			<div className="response-section__headers-container">

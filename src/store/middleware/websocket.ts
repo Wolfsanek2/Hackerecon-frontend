@@ -7,7 +7,7 @@ import {
 	messageReceived,
 } from '@store/slices/websocketSlice';
 import { addRequest } from '@store/slices/appSlice';
-import { vulnerabilityReportToRequestData } from '@api';
+import { reportDtoToRequestData } from '@api';
 
 class WebSocketService {
 	private socket: WebSocket | null = null;
@@ -43,9 +43,7 @@ export const websocketMiddleware: Middleware<{}, RootState> =
 			webSocketService.connect(action.payload.url, store.dispatch);
 		}
 		if (messageReceived.match(action)) {
-			store.dispatch(
-				addRequest(vulnerabilityReportToRequestData(action.payload))
-			);
+			store.dispatch(addRequest(reportDtoToRequestData(action.payload)));
 		}
 
 		return next(action);
