@@ -11,28 +11,31 @@ interface AppState {
 }
 
 const initialState: AppState = {
-	backendWsUrl: 'ws://127.0.0.1:8081',
+	backendWsUrl: 'ws://127.0.0.1:8081/ws',
 	requestsArray: [
 		{
 			id: '1',
 			url: 'example.com',
 			method: 'GET',
-			headers: {
-				key1: 'value 1',
-				key2: 'value 2',
-			},
 			timestamp: new Date().toISOString(),
-			resourceType: 'script',
-			body: 'body 1, body 1, body 1, body 1, body 1, body 1',
+			status: 200,
+			requestDetails: {
+				headers: {
+					key1: 'value 1',
+					key2: 'value 2',
+				},
+				resourceType: 'json',
+				body: 'body 1, body 1, body 1, body 1, body 1, body 1',
+			},
 			responseDetails: {
-				status: 200,
-				statusLine: 'OK',
 				headers: {
 					key3: 'value 3',
 					key4: 'value 4',
 				},
+				resourceType: 'json',
 				body: 'body 2, body 2, body 2, body 2, body 2, body 2',
 			},
+			riskLevel: 'high',
 			llmAnalysis: 'Это анализ от LLM',
 			hasVulnerability: true,
 		},
@@ -40,14 +43,17 @@ const initialState: AppState = {
 			id: '2',
 			url: 'example.com/api',
 			method: 'POST',
-			headers: {},
 			timestamp: new Date().toISOString(),
-			resourceType: 'json',
+			status: 404,
+			requestDetails: {
+				headers: {},
+				resourceType: 'json',
+			},
 			responseDetails: {
-				status: 404,
-				statusLine: 'Not found',
+				resourceType: 'json',
 				headers: {},
 			},
+			riskLevel: 'low',
 			llmAnalysis: '',
 			hasVulnerability: false,
 		},
