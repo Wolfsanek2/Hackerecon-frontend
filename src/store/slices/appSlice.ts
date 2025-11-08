@@ -1,5 +1,6 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { OpenedSection, RequestData } from '@/types';
+import { LOCAL_STORAGE_KEYS } from '@/consts';
 
 interface AppState {
 	backendWsUrl: string;
@@ -10,54 +11,65 @@ interface AppState {
 	isProxyPanelOpened: boolean;
 }
 
+const initialRequests = [
+	{
+		id: '1',
+		url: 'example.com',
+		method: 'GET',
+		timestamp: new Date().toISOString(),
+		status: 200,
+		requestDetails: {
+			headers: {
+				key1: 'value 1',
+				key2: 'value 2',
+			},
+			resourceType: 'json',
+			body: 'body 1, body 1, body 1, body 1, body 1, body 1',
+		},
+		responseDetails: {
+			headers: {
+				key3: 'value 3',
+				key4: 'value 4',
+			},
+			resourceType: 'json',
+			body: 'body 2, body 2, body 2, body 2, body 2, body 2',
+		},
+		riskLevel: 'high',
+		llmAnalysis: 'Это анализ от LLM',
+		hasVulnerability: true,
+	},
+	{
+		id: '2',
+		url: 'example.com/api',
+		method: 'POST',
+		timestamp: new Date().toISOString(),
+		status: 404,
+		requestDetails: {
+			headers: {},
+			resourceType: 'json',
+		},
+		responseDetails: {
+			resourceType: 'json',
+			headers: {},
+		},
+		riskLevel: 'low',
+		llmAnalysis: '',
+		hasVulnerability: false,
+	},
+];
+
+if (!localStorage.getItem(LOCAL_STORAGE_KEYS.REQUESTS)) {
+	localStorage.setItem(
+		LOCAL_STORAGE_KEYS.REQUESTS,
+		JSON.stringify(initialRequests)
+	);
+}
+
 const initialState: AppState = {
 	backendWsUrl: 'ws://127.0.0.1:8081/ws',
-	requestsArray: [
-		{
-			id: '1',
-			url: 'example.com',
-			method: 'GET',
-			timestamp: new Date().toISOString(),
-			status: 200,
-			requestDetails: {
-				headers: {
-					key1: 'value 1',
-					key2: 'value 2',
-				},
-				resourceType: 'json',
-				body: 'body 1, body 1, body 1, body 1, body 1, body 1',
-			},
-			responseDetails: {
-				headers: {
-					key3: 'value 3',
-					key4: 'value 4',
-				},
-				resourceType: 'json',
-				body: 'body 2, body 2, body 2, body 2, body 2, body 2',
-			},
-			riskLevel: 'high',
-			llmAnalysis: 'Это анализ от LLM',
-			hasVulnerability: true,
-		},
-		{
-			id: '2',
-			url: 'example.com/api',
-			method: 'POST',
-			timestamp: new Date().toISOString(),
-			status: 404,
-			requestDetails: {
-				headers: {},
-				resourceType: 'json',
-			},
-			responseDetails: {
-				resourceType: 'json',
-				headers: {},
-			},
-			riskLevel: 'low',
-			llmAnalysis: '',
-			hasVulnerability: false,
-		},
-	],
+	requestsArray: JSON.parse(
+		localStorage.getItem(LOCAL_STORAGE_KEYS.REQUESTS)!
+	),
 	openedSection: 'request',
 	isProxyPanelOpened: false,
 };

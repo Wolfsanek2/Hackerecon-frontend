@@ -8,6 +8,8 @@ import {
 } from '@store/slices/websocketSlice';
 import { addRequest } from '@store/slices/appSlice';
 import { reportDtoToRequestData } from '@api';
+import { LOCAL_STORAGE_KEYS } from '@/consts';
+import type { RequestData } from '@/types';
 
 class WebSocketService {
 	private socket: WebSocket | null = null;
@@ -43,7 +45,16 @@ export const websocketMiddleware: Middleware<{}, RootState> =
 			webSocketService.connect(action.payload.url, store.dispatch);
 		}
 		if (messageReceived.match(action)) {
-			store.dispatch(addRequest(reportDtoToRequestData(action.payload)));
+			const savedRequests = JSON.parse(
+				localStorage.getItem(LOCAL_STORAGE_KEYS.REQUESTS)!
+			) as RequestData[];
+			const requestData = reportDtoToRequestData(action.payload);
+			savedRequests.push(requestData);
+			localStorage.setItem(
+				LOCAL_STORAGE_KEYS.REQUESTS,
+				JSON.stringify(savedRequests)
+			);
+			store.dispatch(addRequest(requestData));
 		}
 
 		return next(action);

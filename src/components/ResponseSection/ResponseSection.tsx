@@ -10,7 +10,7 @@ const ResponseSection: React.FC = () => {
 		<div className="response-section">
 			<div className="response-section__headers-container">
 				<h3 className="response-section__headers-title">
-					Заголовки запроса
+					Заголовки ответа
 				</h3>
 				<Code className="response-section__headers-content">
 					{Object.entries(response.headers).map(([key, value]) => {
@@ -21,7 +21,7 @@ const ResponseSection: React.FC = () => {
 				</Code>
 			</div>
 			<div className="response-section__body-container">
-				<h3 className="response-section__body-title">Тело запроса</h3>
+				<h3 className="response-section__body-title">Тело ответа</h3>
 				<Code>{response.body}</Code>
 			</div>
 		</div>
