@@ -1,11 +1,11 @@
-@use '@styles/variables';
+@use '@styles/mixins' as *;
 
 .main-content {
     width: 100%;
 
     &__title-container {
         padding: 1rem;
-        background-color: $title-bg-color;
+        background-color: var(--title-bg-color);
     }
 
     &__title {
@@ -13,7 +13,6 @@
     }
 
     &__request-count {
-        font-weight: normal;
-        color: $text-secondary-color;
+        @include text-secondary;
     }
 }

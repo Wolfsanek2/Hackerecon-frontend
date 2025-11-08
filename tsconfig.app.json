@@ -23,7 +23,9 @@
 			"@styles": ["./src/styles"],
 			"@styles/": ["./src/styles/*"],
 			"@api": ["./src/api"],
-			"@api/": ["./src/api/*"]
+			"@api/": ["./src/api/*"],
+			"@consts": ["./src/consts"],
+			"@consts/": ["./src/consts/*"],
 		},
 
 		/* Bundler mode */

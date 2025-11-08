@@ -13,6 +13,10 @@ class WebSocketService {
 	private socket: WebSocket | null = null;
 
 	connect(url: string, dispatch: AppDispatch) {
+		if (this.socket && this.socket.url === url) {
+			return;
+		}
+
 		this.socket = new WebSocket(url);
 
 		this.socket.onopen = () => {

@@ -1,8 +1,10 @@
+@use '@styles/mixins' as *;
+
 .proxy-panel {
     display: flex;
     flex-direction: column;
-    border-right: $border;
-    border-bottom: $border;
+    border-right: var(--border);
+    border-bottom: var(--border);
     height: fit-content;
     padding-bottom: 2rem;
 
@@ -20,7 +22,7 @@
         display: flex;
         padding: 1rem;
         padding-right: 0;
-        background-color: $title-bg-color;
+        background-color: var(--title-bg-color);
     }
     
     &__header-title {
@@ -28,8 +30,7 @@
     }
     
     &__header-description {
-        font-weight: normal;
-        color: $text-secondary-color;
+        @include text-secondary;
     }
     
     &__content {
@@ -50,7 +51,7 @@
         gap: 0.5rem;
 
         &-value {
-            background-color: $active-btn-bg-color;
+            background-color: var(--active-btn-bg-color);
             padding: 0.5rem;
             border-radius: 0.5rem;
         }
@@ -66,7 +67,7 @@
         gap: 0.5rem;
 
         &-value {
-            background-color: $active-btn-bg-color;
+            background-color: var(--active-btn-bg-color);
             padding: 0.5rem;
             border-radius: 0.5rem;
         }

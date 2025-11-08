@@ -49,7 +49,7 @@ export const vulnerabilityReportToRequestData = (
 	return {
 		id: vulnerabilityReport.id,
 		url: vulnerabilityReport.analysisResult.url,
-		method: '',
+		method: 'GET',
 		headers: {},
 		timestamp: vulnerabilityReport.timeStamp,
 		llmAnalysis: vulnerabilityReport.analysisResult.aiComment,

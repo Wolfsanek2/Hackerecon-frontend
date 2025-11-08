@@ -1,8 +1,8 @@
 import './RequestDetails.scss';
 import { closeRequestDetails } from '@store/slices/appSlice';
-import closeButtonIcon from '@assets/closeButton.svg';
 import { useAppDispatch, useAppSelector } from '@hooks';
 import {
+	Button,
 	LLMPanel,
 	MethodBadge,
 	RequestSection,
@@ -10,6 +10,9 @@ import {
 	StatusBadge,
 	TabList,
 } from '@components';
+import { svgSpriteUrl } from '@/consts';
+
+const closeButtonIcon = `${svgSpriteUrl}#close-button`;
 
 const RequestDetails: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -32,12 +35,11 @@ const RequestDetails: React.FC = () => {
 								Просмотр заголовков и тела запроса/ответа
 							</h4>
 						</div>
-						<button
+						<Button
 							className="request-details__close-button"
 							onClick={() => dispatch(closeRequestDetails())}
-						>
-							<img src={closeButtonIcon} className="img" />
-						</button>
+							svgUrl={closeButtonIcon}
+						/>
 					</div>
 					<div className="request-details__title-container">
 						<span className="request-details__url">

@@ -1,25 +1,51 @@
-// Colors
-$color-accent: #030213;
-$bg-color: white;
-$title-bg-color: #f5f6f9;
-$active-bg-color: #e9ebef;
-$muted-color: #ececf0;
+:root {
+    // Colors
+    --text-color: black;
+    --text-secondary-color: #717182;
+    --color-accent: #030213;
+    --title-bg-color: #f5f6f9;
+    --bg-color: white;
+    --active-bg-color: #e9ebef;
+    --muted-color: #ececf0;
+    
+    --input-bg-color: #f3f3f5;
+    --code-bg-color: var(--muted-color);
+    
+    --btn-bg-color: white;
+    --active-btn-bg-color: var(--active-bg-color);
 
-// Font
-$font-family-regular: "Inter";
-$font-weight-medium: 500;
-$text-secondary-color: #717182;
+    // Font
+    --font-family-regular: "Inter";
+    --font-weight-medium: 500;
+    
+    // Border
+    --border: 1px solid #dee1e7;
+    --btn-border: 0.05rem solid #d3d3d3;
+    
+    // Transition
+    --active-bg-transition: background-color ease-out 0.1s;
+}
 
-// Border
-$border: 1px solid #dee1e7;
+:root[data-theme='dark'] {
+    // Colors
+    --text-color: white;
+    --color-accent: #f5f6f9;
+    --title-bg-color: #121217;
+    --text-secondary-color: #a3a3b3;
+    --bg-color: #18181f;
+    --active-bg-color: #25252e;
+    --muted-color: #212128;
+    
+    --input-bg-color: #1e1e26;
+    
+    --btn-bg-color: #25252e;
+    --active-btn-bg-color: #2c2c36;
 
-
-$input-bg-color: #f3f3f5;
-$code-bg-color: $muted-color;
-
-// Button
-$btn-bg-color: white;
-$active-btn-bg-color: $active-bg-color;
-$btn-border: 0.05rem solid #d3d3d3;
-
-$active-bg-transition: background-color ease-out 0.1s;
+    // Font
+    --font-family-regular: "Inter";
+    --font-weight-medium: 500;
+    
+    // Border
+    --border: 1px solid #2c2c36;
+    --btn-border: 0.05rem solid #3a3a45;
+}

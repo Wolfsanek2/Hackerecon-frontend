@@ -6,7 +6,9 @@
 
 body {
     margin: 0;
-    font-family: $font-family-regular;
+    font-family: var(--font-family-regular);
+    color: var(--text-color);
+    background-color: var(--bg-color);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -36,4 +38,8 @@ h4 {
 
 table {
     border-spacing: 0;
+}
+
+.hidden {
+    display: none;
 }

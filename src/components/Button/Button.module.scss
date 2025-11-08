@@ -1,12 +1,13 @@
 .button {
-    background-color: $btn-bg-color;
+    background-color: var(--btn-bg-color);
+    color: var(--text-color);
     font-family: inherit;
-    font-weight: $font-weight-medium;
-    transition: $active-bg-transition;
+    font-weight: var(--font-weight-medium);
+    transition: var(--active-bg-transition);
     
     &_text {
         padding: 0.5rem;
-        border: $btn-border;
+        border: var(--btn-border);
         border-radius: 1rem;
     }
 
@@ -16,7 +17,18 @@
         border-radius: 50%;
     }
 
+    &_svg {
+        padding: 0;
+        border: none;
+        border-radius: 50%;
+        
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
     &:hover {
-        background-color: $active-btn-bg-color;
+        background-color: var(--active-btn-bg-color);
     }
 }

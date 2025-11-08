@@ -1,5 +1,7 @@
+@use '@styles/mixins' as *;
+
 .request-details {
-    border: $border;
+    border: var(--border);
     border-top: none;
 
     &_hidden {
@@ -10,12 +12,12 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: $title-bg-color;
+        background-color: var(--title-bg-color);
     }
 
     &__title-container {
         padding: 1rem;
-        border-bottom: $border;
+        border-bottom: var(--border);
     }
 
     &__title {
@@ -23,8 +25,7 @@
     }
 
     &__description {
-        font-weight: normal;
-        color: $text-secondary-color;
+        @include text-secondary;
     }
 
     &__close-button {
@@ -40,7 +41,7 @@
         background: none;
 
         &:hover {
-            background-color: $active-btn-bg-color;
+            background-color: var(--active-btn-bg-color);
         }
     }
 

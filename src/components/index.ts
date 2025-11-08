@@ -13,6 +13,7 @@ import ResponseSection from './ResponseSection';
 import LLMPanel from './LLMPanel';
 import ProxyPanel from './ProxyPanel';
 import Code from './Code';
+import ThemeSwitch from './ThemeSwitch';
 
 export {
 	App,
@@ -30,4 +31,5 @@ export {
 	LLMPanel,
 	ProxyPanel,
 	Code,
+	ThemeSwitch,
 };
