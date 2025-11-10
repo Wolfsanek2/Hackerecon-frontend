@@ -1,6 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import type { OpenedSection, RequestData } from '@/types';
 import { LOCAL_STORAGE_KEYS } from '@/consts';
+import { localStorageService } from '@/utils';
 
 interface AppState {
 	backendWsUrl: string;
@@ -11,7 +12,28 @@ interface AppState {
 	isProxyPanelOpened: boolean;
 }
 
-const initialRequests = [
+const createMockRequest = (): RequestData => {
+	return {
+		id: crypto.randomUUID(),
+		url: 'https://mock.com',
+		method: 'GET',
+		status: 200,
+		timestamp: new Date().toISOString(),
+		requestDetails: {
+			headers: {},
+			resourceType: 'json',
+		},
+		responseDetails: {
+			headers: {},
+			resourceType: 'json',
+		},
+		hasVulnerability: false,
+		riskLevel: 'low',
+		llmAnalysis: '',
+	};
+};
+
+const initialRequests: RequestData[] = [
 	{
 		id: '1',
 		url: 'example.com',
@@ -56,20 +78,16 @@ const initialRequests = [
 		llmAnalysis: '',
 		hasVulnerability: false,
 	},
+	...(Array.from({ length: 20 }).fill(createMockRequest()) as RequestData[]),
 ];
 
-if (!localStorage.getItem(LOCAL_STORAGE_KEYS.REQUESTS)) {
-	localStorage.setItem(
-		LOCAL_STORAGE_KEYS.REQUESTS,
-		JSON.stringify(initialRequests)
-	);
+if (!localStorageService.has(LOCAL_STORAGE_KEYS.REQUESTS)) {
+	localStorageService.requests = initialRequests;
 }
 
 const initialState: AppState = {
 	backendWsUrl: 'ws://127.0.0.1:8081/ws',
-	requestsArray: JSON.parse(
-		localStorage.getItem(LOCAL_STORAGE_KEYS.REQUESTS)!
-	),
+	requestsArray: localStorageService.requests,
 	openedSection: 'request',
 	isProxyPanelOpened: false,
 };

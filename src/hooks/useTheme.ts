@@ -1,13 +1,14 @@
+import { LOCAL_STORAGE_KEYS, THEMES } from '@consts';
+import type { Theme } from '@/types';
+import { localStorageService } from '@utils';
 import { useEffect, useState } from 'react';
-
-type Theme = 'light' | 'dark';
 
 class ThemeManager {
 	currentTheme: Theme;
 
 	constructor() {
-		if (localStorage.getItem('theme')) {
-			this.currentTheme = localStorage.getItem('theme') as Theme;
+		if (localStorageService.has(LOCAL_STORAGE_KEYS.THEME)) {
+			this.currentTheme = localStorageService.theme;
 			return;
 		}
 		this.currentTheme = this.getSystemTheme();
@@ -16,13 +17,13 @@ class ThemeManager {
 	changeTheme(theme: Theme) {
 		this.currentTheme = theme;
 		document.documentElement.setAttribute('data-theme', theme);
-		localStorage.setItem('theme', theme);
+		localStorageService.theme = theme;
 	}
 
 	getSystemTheme(): Theme {
 		return window.matchMedia('(prefers-color-scheme: dark)').matches
-			? 'dark'
-			: 'light';
+			? THEMES.DARK
+			: THEMES.LIGHT;
 	}
 
 	get theme() {
@@ -39,7 +40,7 @@ export const useTheme = (): [Theme, () => void] => {
 	}, [theme]);
 
 	const switchTheme = () => {
-		changeTheme(theme === 'dark' ? 'light' : 'dark');
+		changeTheme(theme === THEMES.DARK ? THEMES.LIGHT : THEMES.DARK);
 	};
 
 	return [theme, switchTheme];

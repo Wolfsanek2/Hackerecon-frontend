@@ -1,1 +1,1 @@
-export * from './websocketDTO';
+export * from './reportDTO';

@@ -26,6 +26,8 @@
 			"@api/": ["./src/api/*"],
 			"@consts": ["./src/consts"],
 			"@consts/": ["./src/consts/*"],
+			"@utils": ["./src/utils"],
+			"@utils/": ["./src/utils/*"],
 		},
 
 		/* Bundler mode */

@@ -10,9 +10,9 @@ import {
 	StatusBadge,
 	TabList,
 } from '@components';
-import { svgSpriteUrl } from '@/consts';
+import { SVG_SPRITE_URL } from '@/consts';
 
-const closeButtonIcon = `${svgSpriteUrl}#close-button`;
+const closeButtonIcon = `${SVG_SPRITE_URL}#close-button`;
 
 const RequestDetails: React.FC = () => {
 	const dispatch = useAppDispatch();

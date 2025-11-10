@@ -2,9 +2,9 @@ import styles from './ProxyPanel.module.scss';
 import { useAppDispatch, useAppSelector } from '@hooks';
 import { Button } from '@components';
 import { closeProxyPanel } from '@store/slices/appSlice';
-import { svgSpriteUrl } from '@consts';
+import { SVG_SPRITE_URL } from '@consts';
 
-const closeButtonIcon = `${svgSpriteUrl}#close-button`;
+const closeButtonIcon = `${SVG_SPRITE_URL}#close-button`;
 
 export const ProxyPanel: React.FC = () => {
 	const visible = useAppSelector((state) => state.app.isProxyPanelOpened);

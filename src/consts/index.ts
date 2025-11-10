@@ -1,6 +1,13 @@
-export const svgSpriteUrl = '/sprites.svg';
+import type { LocalStorageKeys, Themes } from '@/types';
 
-export const LOCAL_STORAGE_KEYS = {
+export const SVG_SPRITE_URL = '/sprites.svg';
+
+export const LOCAL_STORAGE_KEYS: LocalStorageKeys = {
 	THEME: 'theme',
 	REQUESTS: 'requests',
+};
+
+export const THEMES: Themes = {
+	DARK: 'dark',
+	LIGHT: 'light',
 };

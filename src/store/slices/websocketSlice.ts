@@ -1,6 +1,7 @@
 import type { ReportDTO } from '@api';
 import { createAction, createSlice } from '@reduxjs/toolkit';
 
+// В общем случае Message - это any, надо сделать определение типа сообщения, когда их будет несколько. Сейчас только один тип, поэтому оставлен костыль
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 // type Message = any;
 type Message = ReportDTO;
