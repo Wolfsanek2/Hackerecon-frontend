@@ -1,4 +1,3 @@
-import React from 'react';
 import './RequestList.scss';
 import { Request } from '@components';
 import { useAppSelector } from '@hooks';

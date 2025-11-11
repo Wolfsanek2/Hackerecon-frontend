@@ -1,12 +1,16 @@
-import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { OpenedSection, RequestData } from '@/types';
-import { LOCAL_STORAGE_KEYS } from '@/consts';
-import { localStorageService } from '@/utils';
+import {
+	createSelector,
+	createSlice,
+	type PayloadAction,
+} from '@reduxjs/toolkit';
+import type { OpenedSection, RequestData, RequestID } from '@/types';
+import { LOCAL_STORAGE_KEYS } from '@consts';
+import { localStorageService } from '@utils';
 
 interface AppState {
 	backendWsUrl: string;
 	requestsArray: RequestData[];
-	requestDetailsOpened?: string;
+	requestDetailsOpened?: RequestID;
 	openedRequestData?: RequestData;
 	openedSection: OpenedSection;
 	isProxyPanelOpened: boolean;
@@ -20,18 +24,44 @@ const createMockRequest = (): RequestData => {
 		status: 200,
 		timestamp: new Date().toISOString(),
 		requestDetails: {
-			headers: {},
+			headers: {
+				'cache-control':
+					'no-cache, no-store, max-age=0, must-revalidate',
+				'content-security-policy':
+					'script-src "unsafe-eval" "self" "unsafe-inline" https://www.google.com https://apis.google.com https://ssl.gstatic.com https://www.gstatic.com https://www.googletagmanager.com https://www.google-analytics.com https://*.youtube.com https://*.google.com https://*.gstatic.com https://youtube.com https://www.youtube.com https://google.com https://*.doubleclick.net https://*.googleapis.com https://www.googleadservices.com https://tpc.googlesyndication.com https://www.youtubekids.com https://www.youtube-nocookie.com https://www.youtubeeducation.com https://www-onepick-opensocial.googleusercontent.com;report-uri /cspreport/allowlist, require-trusted-types-for "script"',
+				'Очень-длинный-заголовок':
+					'ОченьДлинныйЗаголовокОченьДлинныйЗаголовокОченьДлинныйЗаголовокОченьДлинныйЗаголовокОченьДлинныйЗаголовокОченьДлинныйЗаголовокОченьДлинныйЗаголовокОченьДлинныйЗаголовокОченьДлинныйЗаголовокОченьДлинныйЗаголовок',
+			},
 			resourceType: 'json',
 		},
 		responseDetails: {
 			headers: {},
 			resourceType: 'json',
 		},
-		hasVulnerability: false,
-		riskLevel: 'low',
-		llmAnalysis: '',
+		securityAnalysis: {
+			hasVulnerability: false,
+			riskLevel: 'low',
+			aiComment:
+				'Гипотеза: Сервер полностью доверяет значению, переданному в поле "clicks", и не проверяет его на plausibility, накопление или максимальный лимит. Злоумышленник может отправить чрезвычайно высокое число (например, 1000000) в этом поле, что приведет к немедленному завершению задачи, обходя требуемые усилия или временные затраты. Это классический пример Excessive Trust in Client-Side Input, позволяющий читерство и полный обход бизнес-правил.',
+			securityChecklist: [
+				{
+					action: 'Проверка №1',
+					description: 'Эта проверка нужна, чтобы...',
+					expected: 'Должно произойти...',
+				},
+				{
+					action: 'Проверка №2',
+					description: 'Эта проверка нужна, чтобы...',
+					expected: 'Должно произойти...',
+				},
+			],
+		},
 	};
 };
+
+const mockRequests = Array.from({ length: 20 }).map(() =>
+	createMockRequest()
+) as RequestData[];
 
 const initialRequests: RequestData[] = [
 	{
@@ -56,9 +86,12 @@ const initialRequests: RequestData[] = [
 			resourceType: 'json',
 			body: 'body 2, body 2, body 2, body 2, body 2, body 2',
 		},
-		riskLevel: 'high',
-		llmAnalysis: 'Это анализ от LLM',
-		hasVulnerability: true,
+		securityAnalysis: {
+			riskLevel: 'high',
+			hasVulnerability: true,
+			aiComment: 'Это анализ от LLM',
+			securityChecklist: [],
+		},
 	},
 	{
 		id: '2',
@@ -74,11 +107,14 @@ const initialRequests: RequestData[] = [
 			resourceType: 'json',
 			headers: {},
 		},
-		riskLevel: 'low',
-		llmAnalysis: '',
-		hasVulnerability: false,
+		securityAnalysis: {
+			riskLevel: 'low',
+			hasVulnerability: false,
+			aiComment: '',
+			securityChecklist: [],
+		},
 	},
-	...(Array.from({ length: 20 }).fill(createMockRequest()) as RequestData[]),
+	...mockRequests,
 ];
 
 if (!localStorageService.has(LOCAL_STORAGE_KEYS.REQUESTS)) {
@@ -92,6 +128,11 @@ const initialState: AppState = {
 	isProxyPanelOpened: false,
 };
 
+const selectRequestById = createSelector(
+	[(state: AppState) => state.requestsArray, (_, id: RequestID) => id],
+	(requests, id) => requests.find((request) => request.id === id)
+);
+
 export const appSlice = createSlice({
 	name: 'app',
 	initialState,
@@ -102,11 +143,9 @@ export const appSlice = createSlice({
 		clearRequests: (state) => {
 			state.requestsArray = [];
 		},
-		openRequestDetails: (state, action: PayloadAction<string>) => {
+		openRequestDetails: (state, action: PayloadAction<RequestID>) => {
 			state.requestDetailsOpened = action.payload;
-			state.openedRequestData = state.requestsArray.find(
-				(request) => request.id === action.payload
-			);
+			state.openedRequestData = selectRequestById(state, action.payload);
 		},
 		closeRequestDetails: (state) => {
 			state.requestDetailsOpened = undefined;
@@ -122,6 +161,11 @@ export const appSlice = createSlice({
 			state.isProxyPanelOpened = false;
 		},
 	},
+	selectors: {
+		selectRequestById,
+		selectSecurityAnalysis: (state) =>
+			state.openedRequestData!.securityAnalysis,
+	},
 });
 
 export const {
@@ -133,4 +177,5 @@ export const {
 	openProxyPanel,
 	closeProxyPanel,
 } = appSlice.actions;
+export const { selectSecurityAnalysis } = appSlice.selectors;
 export const appReducer = appSlice.reducer;

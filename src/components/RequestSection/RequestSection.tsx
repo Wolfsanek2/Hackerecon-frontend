@@ -1,6 +1,6 @@
 import './RequestSection.scss';
 import { useAppSelector } from '@/hooks';
-import { Code } from '@components';
+import { Code, Headers } from '@components';
 
 const RequestSection: React.FC = () => {
 	const request = useAppSelector((state) => state.app.openedRequestData)!;
@@ -10,15 +10,10 @@ const RequestSection: React.FC = () => {
 				<h3 className="request-section__headers-title">
 					Заголовки запроса
 				</h3>
-				<Code className="request-section__headers-content">
-					{Object.entries(request.requestDetails.headers).map(
-						([key, value]) => {
-							return (
-								<div className="request-section__header">{`${key}: ${value}`}</div>
-							);
-						}
-					)}
-				</Code>
+				<Headers
+					className="request-section__headers-content"
+					headers={request.requestDetails.headers}
+				/>
 			</div>
 			<div className="request-section__body-container">
 				<h3 className="request-section__body-title">Тело запроса</h3>

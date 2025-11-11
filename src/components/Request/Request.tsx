@@ -51,7 +51,7 @@ const Request: React.FC<RequestProps> = ({ request }) => {
 			<td
 				className={`${styles['request__warning-container']} ${styles['request__details-container']}`}
 			>
-				{request.hasVulnerability ? (
+				{request.securityAnalysis.hasVulnerability ? (
 					<img src={warningIcon} className="img" />
 				) : (
 					''

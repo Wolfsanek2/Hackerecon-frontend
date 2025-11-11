@@ -1,4 +1,9 @@
-import type { RequestData, RequestResponseDetails, RiskLevel } from '@/types';
+import type {
+	RequestData,
+	RequestResponseDetails,
+	RiskLevel,
+	SecurityAnalysis,
+} from '@/types';
 
 export type Headers = Record<string, string>;
 
@@ -69,6 +74,17 @@ export const requestResponseToResponseData = (
 	};
 };
 
+export const securityAnalysisFromDTO = (
+	securityAnalysis: SecurityAnalysisResponse
+): SecurityAnalysis => {
+	return {
+		hasVulnerability: securityAnalysis.has_vulnerability,
+		riskLevel: securityAnalysis.risk_level,
+		aiComment: securityAnalysis.ai_comment,
+		securityChecklist: securityAnalysis.security_checklist || [],
+	};
+};
+
 export const reportDtoToRequestData = (reportDto: ReportDTO): RequestData => {
 	const { report, request_response: requestResponse } = reportDto;
 	const analysisResult = report.analysis_result;
@@ -80,8 +96,6 @@ export const reportDtoToRequestData = (reportDto: ReportDTO): RequestData => {
 		timestamp: report.timestamp,
 		requestDetails: requestResponseToRequestDetails(requestResponse),
 		responseDetails: requestResponseToResponseData(requestResponse),
-		hasVulnerability: analysisResult.has_vulnerability,
-		riskLevel: analysisResult.risk_level,
-		llmAnalysis: report.analysis_result.ai_comment,
+		securityAnalysis: securityAnalysisFromDTO(analysisResult),
 	};
 };

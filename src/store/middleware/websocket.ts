@@ -6,7 +6,7 @@ import {
 	disconnected,
 	messageReceived,
 } from '@store/slices/websocketSlice';
-import { addRequest } from '@store/slices/appSlice';
+import { addRequest, clearRequests } from '@store/slices/appSlice';
 import { reportDtoToRequestData } from '@api';
 import { localStorageService } from '@utils';
 
@@ -48,6 +48,8 @@ export const websocketMiddleware: Middleware<{}, RootState> =
 			savedRequests.push(requestData);
 			localStorageService.requests = savedRequests;
 			store.dispatch(addRequest(requestData));
+		} else if (clearRequests.match(action)) {
+			localStorageService.requests = [];
 		}
 
 		return next(action);

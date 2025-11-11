@@ -14,6 +14,7 @@ import LLMPanel from './LLMPanel';
 import ProxyPanel from './ProxyPanel';
 import Code from './Code';
 import ThemeSwitch from './ThemeSwitch';
+import Headers from './Headers';
 
 export {
 	App,
@@ -32,4 +33,5 @@ export {
 	ProxyPanel,
 	Code,
 	ThemeSwitch,
+	Headers,
 };
