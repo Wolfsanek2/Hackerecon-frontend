@@ -2,8 +2,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-sizing: border-box;
+    position: sticky;
+    top: 0;
     padding: 2rem;
+    height: var(--header-height);
     border-bottom: var(--border);
+    background-color: var(--bg-color);
+    z-index: 10;
 
     &__left-side {
         display: flex;

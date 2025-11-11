@@ -24,6 +24,9 @@
     
     // Transition
     --active-bg-transition: background-color ease-out 0.1s;
+
+    // Size
+    --header-height: 8rem;
 }
 
 :root[data-theme='dark'] {
