@@ -6,6 +6,7 @@
     &__header-container {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         padding: 1rem;
         background-color: var(--title-bg-color);
     }
@@ -22,5 +23,6 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+
     }
 }

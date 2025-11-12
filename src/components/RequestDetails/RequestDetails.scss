@@ -1,7 +1,6 @@
 @use '@styles/mixins' as *;
 
 .request-details {
-    position: sticky;
     width: 30%;
     min-width: 30%;
     max-width: 30%;
@@ -13,8 +12,11 @@
     }
 
     &__container {
+        display: flex;
+        flex-direction: column;
         position: sticky;
         top: var(--header-height);
+        height: calc(100vh - var(--header-height));
     }
 
     &__header {

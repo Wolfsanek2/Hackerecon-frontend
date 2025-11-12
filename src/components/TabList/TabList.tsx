@@ -1,5 +1,5 @@
+import styles from './TabList.module.scss';
 import { useAppDispatch } from '@hooks';
-import './TabList.scss';
 import { openSection } from '@store/slices/appSlice';
 import type { OpenedSection } from '@/types';
 
@@ -12,32 +12,34 @@ interface TabListSection {
 
 interface TabListProps {
 	sections: TabListSection[];
+	className?: string;
 }
 
-const TabList: React.FC<TabListProps> = ({ sections }) => {
+const TabList: React.FC<TabListProps> = ({ sections, className }) => {
 	const dispatch = useAppDispatch();
 	const Content = sections.find((section) => section.active)?.content;
 	return (
-		<div className="tablist">
-			<div className="tablist__header">
+		<div className={`${styles['tablist']} ${className}`}>
+			<div className={`${styles['tablist__header']}`}>
 				{sections.map((section, i) => {
 					return (
 						<div
 							key={i}
 							onClick={() => dispatch(openSection(section.name))}
-							className={
-								'tablist__title-button ' +
-								(section.active
-									? 'tablist__title-button_active'
-									: '')
-							}
+							className={`${styles['tablist__title-button']} ${
+								section.active
+									? `${styles['tablist__title-button_active']}`
+									: ''
+							}`}
 						>
 							{section.title}
 						</div>
 					);
 				})}
 			</div>
-			<div className="tablist__content">{Content ? <Content /> : ''}</div>
+			<div className={`${styles['tablist__content']}`}>
+				{Content ? <Content /> : ''}
+			</div>
 		</div>
 	);
 };

@@ -1,0 +1,61 @@
+.tablist {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    
+    &__header {
+        display: inline-flex;
+        gap: 1rem;
+        padding: 0.5rem;
+        margin: 1rem;
+        background-color: var(--active-btn-bg-color);
+        border-radius: 1rem;
+    }
+
+    &__title-button {
+        display: flex;
+        align-items: center;
+        padding: 0.5rem;
+        background-color: var(--active-btn-bg-color);
+        border-radius: 1rem;
+        transition: var(--active-bg-transition);
+
+        &_active {
+            background-color: var(--bg-color);
+        }
+
+        &:hover {
+            background-color: var(--bg-color);
+            cursor: default;
+        }
+    }
+
+    &__content {
+        padding: 1rem;
+        min-height: 0;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            width: 0.5rem;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: var(--scrollbar-track-bg-color);
+            border: 1px solid var(--scrollbar-track-border-color);
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb-bg-color);
+            border: 0.1rem solid var(--scrollbar-thumb-border-color);
+            border-radius: 0.25rem;
+
+            &:hover {
+                background-color: var(--scrollbar-thumb-bg-hover-color);
+            }
+
+            &:active {
+                background-color: var(--scrollbar-thumb-bg-active-color);
+            }
+        }
+    }
+}
