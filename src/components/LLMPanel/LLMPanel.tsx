@@ -11,28 +11,35 @@ export const LLMPanel: React.FC = () => {
 	return (
 		<div className={`${styles['llm-panel']}`}>
 			<Code className={`${styles['llm-panel__content']}`}>
-				<p className={`${styles['llm-panel__paragraph']}`}>
-					{aiComment}
-				</p>
-				<p
-					className={`${styles['llm-panel__paragraph']} ${styles['checklist']}`}
-				>
-					Чек-лист:
-					{securityChecklist.map(
-						({ action, description, expected }, index) => {
-							return (
-								<p className={`${styles['checklist__item']}`}>
-									{`${index + 1}. ${action}` +
-										'\n' +
-										description +
-										'\n' +
-										`Ожидание: ${expected}` +
-										'\n'}
-								</p>
-							);
-						}
-					)}
-				</p>
+				{!!aiComment && (
+					<p className={`${styles['llm-panel__paragraph']}`}>
+						{aiComment}
+					</p>
+				)}
+				{!!securityChecklist.length && (
+					<p
+						className={`${styles['llm-panel__paragraph']} ${styles['checklist']}`}
+					>
+						Чек-лист:
+						{securityChecklist.map(
+							({ action, description, expected }, index) => {
+								return (
+									<span
+										key={index}
+										className={`${styles['checklist__item']}`}
+									>
+										{`${index + 1}. ${action}` +
+											'\n' +
+											description +
+											'\n' +
+											`Ожидание: ${expected}` +
+											'\n'}
+									</span>
+								);
+							}
+						)}
+					</p>
+				)}
 			</Code>
 		</div>
 	);

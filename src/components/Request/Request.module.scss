@@ -1,6 +1,10 @@
 .request {
     transition: var(--active-bg-transition);
 
+    &_selected {
+        background-color: var(--active-btn-bg-color);
+    }
+
     &:hover {
         background-color: var(--active-btn-bg-color);
     }

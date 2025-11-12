@@ -6,4 +6,8 @@
     background-color: var(--code-bg-color);
     border-radius: 1rem;
     white-space: pre-line;
+
+    &:empty {
+        padding: 0;
+    }
 }

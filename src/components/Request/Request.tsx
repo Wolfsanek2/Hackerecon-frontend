@@ -1,7 +1,10 @@
-import { openRequestDetails } from '@store/slices/appSlice';
+import {
+	openRequestDetails,
+	selectOpenedRequestId,
+} from '@store/slices/appSlice';
 import styles from './Request.module.scss';
 import type { RequestData } from '@type';
-import { useAppDispatch } from '@/hooks';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import { MethodBadge, StatusBadge } from '@components';
 import warningIcon from '@assets/warning.svg';
 
@@ -11,11 +14,14 @@ interface RequestProps {
 
 const Request: React.FC<RequestProps> = ({ request }) => {
 	const dispatch = useAppDispatch();
+	const selectedId = useAppSelector(selectOpenedRequestId);
 
 	return (
 		<tr
 			key={request.id}
-			className={`${styles['request']}`}
+			className={`${styles['request']} ${
+				selectedId === request.id ? styles['request_selected'] : ''
+			}`}
 			onClick={() => dispatch(openRequestDetails(request.id))}
 		>
 			<td

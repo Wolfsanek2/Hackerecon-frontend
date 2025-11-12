@@ -128,7 +128,7 @@ const initialState: AppState = {
 	isProxyPanelOpened: false,
 };
 
-const selectRequestById = createSelector(
+export const selectRequestById = createSelector(
 	[(state: AppState) => state.requestsArray, (_, id: RequestID) => id],
 	(requests, id) => requests.find((request) => request.id === id)
 );
@@ -165,6 +165,8 @@ export const appSlice = createSlice({
 		selectRequestById,
 		selectSecurityAnalysis: (state) =>
 			state.openedRequestData!.securityAnalysis,
+		selectOpenedRequestId: (state) => state.openedRequestData?.id,
+		selectOpenedRequestData: (state) => state.openedRequestData,
 	},
 });
 
@@ -177,5 +179,9 @@ export const {
 	openProxyPanel,
 	closeProxyPanel,
 } = appSlice.actions;
-export const { selectSecurityAnalysis } = appSlice.selectors;
+export const {
+	selectSecurityAnalysis,
+	selectOpenedRequestData,
+	selectOpenedRequestId,
+} = appSlice.selectors;
 export const appReducer = appSlice.reducer;
