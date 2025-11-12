@@ -4,9 +4,12 @@ import { Code } from '@components';
 import { selectSecurityAnalysis } from '@store/slices/appSlice';
 
 export const LLMPanel: React.FC = () => {
-	const { aiComment, securityChecklist } = useAppSelector(
-		selectSecurityAnalysis
-	);
+	const {
+		aiComment,
+		securityChecklist,
+		vulnerabilityTypes,
+		extractedSecrets,
+	} = useAppSelector(selectSecurityAnalysis);
 
 	return (
 		<div className={`${styles['llm-panel']}`}>
@@ -14,6 +17,34 @@ export const LLMPanel: React.FC = () => {
 				{!!aiComment && (
 					<p className={`${styles['llm-panel__paragraph']}`}>
 						{aiComment}
+					</p>
+				)}
+				{!!vulnerabilityTypes.length && (
+					<p className={`${styles['llm-panel__paragraph']}`}>
+						Найденные уязвимости:
+						<ul
+							className={`${styles['llm-panel__vulnerabilities']}`}
+						>
+							{vulnerabilityTypes.map((vulnerability) => (
+								<li>{vulnerability}</li>
+							))}
+						</ul>
+					</p>
+				)}
+				{!!extractedSecrets.length && (
+					<p className={`${styles['llm-panel__paragraph']}`}>
+						Найденные флаги и секреты:
+						<ul className={`${styles['llm-panel__secrets']}`}>
+							{extractedSecrets.map((secret) => (
+								<li
+									className={`${styles['llm-panel__secret']}`}
+								>
+									<span>{`${secret.type}: ${secret.value}`}</span>
+									<span>{`Расположение: ${secret.location}`}</span>
+									<span>{secret.context}</span>
+								</li>
+							))}
+						</ul>
 					</p>
 				)}
 				{!!securityChecklist.length && (

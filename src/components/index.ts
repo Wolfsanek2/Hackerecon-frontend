@@ -15,6 +15,7 @@ import ProxyPanel from './ProxyPanel';
 import Code from './Code';
 import ThemeSwitch from './ThemeSwitch';
 import Headers from './Headers';
+import SvgIcon from './SvgIcon';
 
 export {
 	App,
@@ -34,4 +35,5 @@ export {
 	Code,
 	ThemeSwitch,
 	Headers,
+	SvgIcon,
 };

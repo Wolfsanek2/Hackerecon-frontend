@@ -16,7 +16,13 @@ export default defineConfig([
 			reactRefresh.configs.vite,
 		],
 		rules: {
-			indent: ['error', 'tab'],
+			indent: [
+				'error',
+				'tab',
+				{
+					SwitchCase: 1,
+				},
+			],
 			'no-console': 'warn',
 			'@typescript-eslint/no-explicit-any': 'warn',
 		},

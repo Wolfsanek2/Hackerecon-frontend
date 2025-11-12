@@ -10,7 +10,7 @@ import {
 	StatusBadge,
 	TabList,
 } from '@components';
-import { SVG_SPRITE_URL } from '@/consts';
+import { SVG_SPRITE_URL } from '@consts';
 
 const closeButtonIcon = `${SVG_SPRITE_URL}#close-button`;
 

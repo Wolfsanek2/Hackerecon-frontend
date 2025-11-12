@@ -3,7 +3,7 @@ import {
 	createSlice,
 	type PayloadAction,
 } from '@reduxjs/toolkit';
-import type { OpenedSection, RequestData, RequestID } from '@/types';
+import type { OpenedSection, RequestData, RequestID, RiskLevel } from '@/types';
 import { LOCAL_STORAGE_KEYS } from '@consts';
 import { localStorageService } from '@utils';
 
@@ -15,6 +15,22 @@ interface AppState {
 	openedSection: OpenedSection;
 	isProxyPanelOpened: boolean;
 }
+
+const generateRiskLevel = (() => {
+	let count = 0;
+	return (): RiskLevel => {
+		switch (count++ % 4) {
+			case 0:
+				return 'low';
+			case 1:
+				return 'medium';
+			case 2:
+				return 'high';
+			default:
+				return 'critical';
+		}
+	};
+})();
 
 const createMockRequest = (): RequestData => {
 	return {
@@ -39,8 +55,8 @@ const createMockRequest = (): RequestData => {
 			resourceType: 'json',
 		},
 		securityAnalysis: {
-			hasVulnerability: false,
-			riskLevel: 'low',
+			hasVulnerability: !!Math.round(Math.random()),
+			riskLevel: generateRiskLevel(),
 			aiComment:
 				'Гипотеза: Сервер полностью доверяет значению, переданному в поле "clicks", и не проверяет его на plausibility, накопление или максимальный лимит. Злоумышленник может отправить чрезвычайно высокое число (например, 1000000) в этом поле, что приведет к немедленному завершению задачи, обходя требуемые усилия или временные затраты. Это классический пример Excessive Trust in Client-Side Input, позволяющий читерство и полный обход бизнес-правил.',
 			securityChecklist: [
@@ -53,6 +69,25 @@ const createMockRequest = (): RequestData => {
 					action: 'Проверка №2',
 					description: 'Эта проверка нужна, чтобы...',
 					expected: 'Должно произойти...',
+				},
+			],
+			vulnerabilityTypes: [
+				'Уязвимость 1',
+				'Уязвимость 2',
+				'Уязвимость 3',
+			],
+			extractedSecrets: [
+				{
+					type: 'api ключ',
+					value: crypto.randomUUID(),
+					location: 'example.com/api/example',
+					context: 'Секрет был обнаружен при...',
+				},
+				{
+					type: 'Пароль',
+					value: crypto.randomUUID(),
+					location: 'example.com/api/example',
+					context: 'Секрет был обнаружен при...',
 				},
 			],
 		},
@@ -91,6 +126,8 @@ const initialRequests: RequestData[] = [
 			hasVulnerability: true,
 			aiComment: 'Это анализ от LLM',
 			securityChecklist: [],
+			vulnerabilityTypes: [],
+			extractedSecrets: [],
 		},
 	},
 	{
@@ -112,6 +149,8 @@ const initialRequests: RequestData[] = [
 			hasVulnerability: false,
 			aiComment: '',
 			securityChecklist: [],
+			vulnerabilityTypes: [],
+			extractedSecrets: [],
 		},
 	},
 	...mockRequests,

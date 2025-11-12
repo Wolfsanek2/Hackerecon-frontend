@@ -82,6 +82,8 @@ export const securityAnalysisFromDTO = (
 		riskLevel: securityAnalysis.risk_level,
 		aiComment: securityAnalysis.ai_comment,
 		securityChecklist: securityAnalysis.security_checklist || [],
+		vulnerabilityTypes: securityAnalysis.vulnerability_types || [],
+		extractedSecrets: securityAnalysis.extracted_secrets || [],
 	};
 };
 

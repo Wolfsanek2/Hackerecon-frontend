@@ -24,11 +24,11 @@
         justify-content: space-between;
         align-items: center;
         background-color: var(--title-bg-color);
+        border-bottom: var(--border);
     }
 
     &__title-container {
         padding: 1rem;
-        border-bottom: var(--border);
     }
 
     &__title {

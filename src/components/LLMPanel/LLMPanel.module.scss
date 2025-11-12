@@ -11,6 +11,22 @@
     &__paragraph {
         margin: 0;
     }
+
+    &__vulnerabilities {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__secrets {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    &__secret {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 .checklist {

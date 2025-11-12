@@ -1,12 +1,12 @@
+import styles from './Request.module.scss';
 import {
 	openRequestDetails,
 	selectOpenedRequestId,
 } from '@store/slices/appSlice';
-import styles from './Request.module.scss';
 import type { RequestData } from '@type';
-import { useAppDispatch, useAppSelector } from '@/hooks';
-import { MethodBadge, StatusBadge } from '@components';
-import warningIcon from '@assets/warning.svg';
+import { useAppDispatch, useAppSelector } from '@hooks';
+import { MethodBadge, StatusBadge, SvgIcon } from '@components';
+import { WARNING_ICON_URL } from '@consts';
 
 interface RequestProps {
 	request: RequestData;
@@ -15,12 +15,28 @@ interface RequestProps {
 const Request: React.FC<RequestProps> = ({ request }) => {
 	const dispatch = useAppDispatch();
 	const selectedId = useAppSelector(selectOpenedRequestId);
+	let isWarningLow = false;
+	let isWarningHigh = false;
+	if (request.securityAnalysis.hasVulnerability) {
+		switch (request.securityAnalysis.riskLevel) {
+			case 'low':
+			case 'medium':
+				isWarningLow = true;
+				break;
+			case 'high':
+			case 'critical':
+				isWarningHigh = true;
+				break;
+		}
+	}
 
 	return (
 		<tr
 			key={request.id}
 			className={`${styles['request']} ${
 				selectedId === request.id ? styles['request_selected'] : ''
+			} ${isWarningLow ? styles['request_warning-low'] : ''} ${
+				isWarningHigh ? styles['request_warning-high'] : ''
 			}`}
 			onClick={() => dispatch(openRequestDetails(request.id))}
 		>
@@ -58,7 +74,14 @@ const Request: React.FC<RequestProps> = ({ request }) => {
 				className={`${styles['request__warning-container']} ${styles['request__details-container']}`}
 			>
 				{request.securityAnalysis.hasVulnerability ? (
-					<img src={warningIcon} className="img" />
+					<SvgIcon
+						svgUrl={WARNING_ICON_URL}
+						className={`${styles['warning-icon']} ${
+							isWarningLow ? styles['warning-icon_low'] : ''
+						} ${
+							isWarningHigh ? styles['warning-icon_high'] : ''
+						} img`}
+					/>
 				) : (
 					''
 				)}

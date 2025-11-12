@@ -1,7 +1,6 @@
-export type RiskLevel = 'low' | 'medium' | 'high' | 'critical';
-
 export type Headers = Record<string, string>;
 export type RequestID = string;
+export type RiskLevel = 'low' | 'medium' | 'high' | 'critical';
 
 export interface SecurityCheckItem {
 	action: string;
@@ -9,11 +8,20 @@ export interface SecurityCheckItem {
 	expected: string;
 }
 
+export interface ExtractedSecret {
+	type: string;
+	value: string;
+	context: string;
+	location: string;
+}
+
 export interface SecurityAnalysis {
 	hasVulnerability: boolean;
-	riskLevel: string;
+	riskLevel: RiskLevel;
 	aiComment: string;
 	securityChecklist: SecurityCheckItem[];
+	vulnerabilityTypes: string[];
+	extractedSecrets: ExtractedSecret[];
 }
 
 export interface RequestData {
