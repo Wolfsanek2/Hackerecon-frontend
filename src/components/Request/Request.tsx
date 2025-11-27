@@ -1,8 +1,5 @@
 import styles from './Request.module.scss';
-import {
-	openRequestDetails,
-	selectOpenedRequestId,
-} from '@store/slices/appSlice';
+import { appSliceSelectors, openRequestDetails } from '@store/slices/appSlice';
 import type { RequestData } from '@type';
 import { useAppDispatch, useAppSelector } from '@hooks';
 import { MethodBadge, StatusBadge, SvgIcon } from '@components';
@@ -14,7 +11,7 @@ interface RequestProps {
 
 const Request: React.FC<RequestProps> = ({ request }) => {
 	const dispatch = useAppDispatch();
-	const selectedId = useAppSelector(selectOpenedRequestId);
+	const selectedId = useAppSelector(appSliceSelectors.selectOpenedRequestId);
 	let isWarningLow = false;
 	let isWarningHigh = false;
 	if (request.securityAnalysis.hasVulnerability) {

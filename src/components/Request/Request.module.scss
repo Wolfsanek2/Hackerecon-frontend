@@ -2,7 +2,7 @@
     transition: var(--active-bg-transition);
 
     &_selected {
-        background-color: var(--active-btn-bg-color);
+        background-color: var(--active-bg-color);
     }
 
     &_warning-low {
@@ -14,7 +14,8 @@
     }
 
     &:hover {
-        background-color: var(--active-btn-bg-color);
+        cursor: pointer;
+        background-color: var(--hover-btn-bg-color);
     }
 
     &__details-container {

@@ -9,7 +9,8 @@
     transition: var(--active-bg-transition);
 
     &:hover {
-        background-color: var(--active-btn-bg-color);
+        cursor: pointer;
+        background-color: var(--hover-btn-bg-color);
     }
 }
 
@@ -28,7 +29,4 @@
 .icon-container {
     width: 2rem;
     height: 2rem;
-}
-
-.dark-theme-icon {
 }

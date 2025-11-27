@@ -1,7 +1,7 @@
-import { useAppSelector } from '@/hooks';
 import styles from './LLMPanel.module.scss';
+import { useAppSelector } from '@hooks';
 import { Code } from '@components';
-import { selectSecurityAnalysis } from '@store/slices/appSlice';
+import { appSliceSelectors } from '@store/slices/appSlice';
 
 export const LLMPanel: React.FC = () => {
 	const {
@@ -9,46 +9,47 @@ export const LLMPanel: React.FC = () => {
 		securityChecklist,
 		vulnerabilityTypes,
 		extractedSecrets,
-	} = useAppSelector(selectSecurityAnalysis);
+	} = useAppSelector(appSliceSelectors.selectSecurityAnalysis);
 
 	return (
 		<div className={`${styles['llm-panel']}`}>
 			<Code className={`${styles['llm-panel__content']}`}>
 				{!!aiComment && (
-					<p className={`${styles['llm-panel__paragraph']}`}>
+					<div className={`${styles['llm-panel__paragraph']}`}>
 						{aiComment}
-					</p>
+					</div>
 				)}
 				{!!vulnerabilityTypes.length && (
-					<p className={`${styles['llm-panel__paragraph']}`}>
+					<div className={`${styles['llm-panel__paragraph']}`}>
 						Найденные уязвимости:
 						<ul
 							className={`${styles['llm-panel__vulnerabilities']}`}
 						>
-							{vulnerabilityTypes.map((vulnerability) => (
-								<li>{vulnerability}</li>
+							{vulnerabilityTypes.map((vulnerability, i) => (
+								<li key={i}>{vulnerability}</li>
 							))}
 						</ul>
-					</p>
+					</div>
 				)}
 				{!!extractedSecrets.length && (
-					<p className={`${styles['llm-panel__paragraph']}`}>
+					<div className={`${styles['llm-panel__paragraph']}`}>
 						Найденные флаги и секреты:
 						<ul className={`${styles['llm-panel__secrets']}`}>
-							{extractedSecrets.map((secret) => (
+							{extractedSecrets.map((secret, i) => (
 								<li
-									className={`${styles['llm-panel__secret']}`}
+									key={i}
+									className={`${styles['secret-item']}`}
 								>
-									<span>{`${secret.type}: ${secret.value}`}</span>
-									<span>{`Расположение: ${secret.location}`}</span>
-									<span>{secret.context}</span>
+									<div>{`${secret.type}: ${secret.value}`}</div>
+									<div>{`Расположение: ${secret.location}`}</div>
+									<div>{secret.context}</div>
 								</li>
 							))}
 						</ul>
-					</p>
+					</div>
 				)}
 				{!!securityChecklist.length && (
-					<p
+					<div
 						className={`${styles['llm-panel__paragraph']} ${styles['checklist']}`}
 					>
 						Чек-лист:
@@ -69,7 +70,7 @@ export const LLMPanel: React.FC = () => {
 								);
 							}
 						)}
-					</p>
+					</div>
 				)}
 			</Code>
 		</div>

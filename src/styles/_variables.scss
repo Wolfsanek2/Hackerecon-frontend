@@ -11,26 +11,28 @@
     // Background
     --title-bg-color: #f5f6f9;
     --bg-color: white;
+    --bg-color-secondary: #e9ebef;
     --active-bg-color: #e9ebef;
     --input-bg-color: #f3f3f5;
     --btn-bg-color: white;
 
     --code-bg-color: var(--muted-color);
-    --active-btn-bg-color: var(--active-bg-color);
-    
+    --hover-btn-bg-color: var(--active-bg-color);
+    --active-btn-bg-color: #b6bac2;
+
     // Font
     --font-family-regular: "Inter";
     --font-weight-medium: 500;
-    
+
     // Border
     --border: 1px solid #dee1e7;
     --btn-border: 0.05rem solid #d3d3d3;
-    
+
     // Transition
     --active-bg-transition: background-color ease-out 0.1s;
 
     // Size
-    --header-height: 8rem;
+    --header-height: 14rem;
 
     // Scrollbar
     --scrollbar-track-bg-color: #f1f1f1;
@@ -47,19 +49,21 @@
     --color-accent: #f5f6f9;
     --text-secondary-color: #a3a3b3;
     --muted-color: #212128;
-    
+
     // Background
     --title-bg-color: #121217;
     --bg-color: #18181f;
+    --bg-color-secondary: #2c2c36;
     --active-bg-color: #373749;
     --input-bg-color: #1e1e26;
     --btn-bg-color: #25252e;
-    --active-btn-bg-color: #2c2c36;
+    --hover-btn-bg-color: #2c2c36;
+    --active-btn-bg-color: #59595f;
 
     // Font
     --font-family-regular: "Inter";
     --font-weight-medium: 500;
-    
+
     // Border
     --border: 1px solid #2c2c36;
     --btn-border: 0.05rem solid #3a3a45;

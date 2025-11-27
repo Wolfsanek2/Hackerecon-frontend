@@ -1,7 +1,6 @@
 import App from './App';
 import RequestList from './RequestList';
 import Request from './Request';
-import Header from './Header';
 import MainContent from './MainContent';
 import Button from './Button';
 import RequestDetails from './RequestDetails';
@@ -16,12 +15,12 @@ import Code from './Code';
 import ThemeSwitch from './ThemeSwitch';
 import Headers from './Headers';
 import SvgIcon from './SvgIcon';
+import { LLMPage } from './LLMPage';
 
 export {
 	App,
 	RequestList,
 	Request,
-	Header,
 	MainContent,
 	Button,
 	RequestDetails,
@@ -36,4 +35,7 @@ export {
 	ThemeSwitch,
 	Headers,
 	SvgIcon,
+	LLMPage,
 };
+
+export * from './Header';

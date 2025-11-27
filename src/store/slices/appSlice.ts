@@ -8,7 +8,6 @@ import { LOCAL_STORAGE_KEYS } from '@consts';
 import { localStorageService } from '@utils';
 
 interface AppState {
-	backendWsUrl: string;
 	requestsArray: RequestData[];
 	requestDetailsOpened?: RequestID;
 	openedRequestData?: RequestData;
@@ -101,7 +100,7 @@ const mockRequests = Array.from({ length: 20 }).map(() =>
 const initialRequests: RequestData[] = [
 	{
 		id: '1',
-		url: 'example.com',
+		url: 'http://example.com',
 		method: 'GET',
 		timestamp: new Date().toISOString(),
 		status: 200,
@@ -132,7 +131,7 @@ const initialRequests: RequestData[] = [
 	},
 	{
 		id: '2',
-		url: 'example.com/api',
+		url: 'http://example.com/api',
 		method: 'POST',
 		timestamp: new Date().toISOString(),
 		status: 404,
@@ -161,7 +160,6 @@ if (!localStorageService.has(LOCAL_STORAGE_KEYS.REQUESTS)) {
 }
 
 const initialState: AppState = {
-	backendWsUrl: 'ws://127.0.0.1:8081/ws',
 	requestsArray: localStorageService.requests,
 	openedSection: 'request',
 	isProxyPanelOpened: false,
@@ -170,6 +168,18 @@ const initialState: AppState = {
 export const selectRequestById = createSelector(
 	[(state: AppState) => state.requestsArray, (_, id: RequestID) => id],
 	(requests, id) => requests.find((request) => request.id === id)
+);
+
+const selectHosts = createSelector(
+	[(state: AppState) => state.requestsArray],
+	(requests) => {
+		return Array.from(
+			requests.reduce((result, request) => {
+				result.add(new URL(request.url).host);
+				return result;
+			}, new Set<string>())
+		);
+	}
 );
 
 export const appSlice = createSlice({
@@ -206,6 +216,11 @@ export const appSlice = createSlice({
 			state.openedRequestData!.securityAnalysis,
 		selectOpenedRequestId: (state) => state.openedRequestData?.id,
 		selectOpenedRequestData: (state) => state.openedRequestData,
+		selectOpenedRequestDetails: (state) =>
+			state.openedRequestData?.requestDetails,
+		selectOpenedResponseDetails: (state) =>
+			state.openedRequestData?.responseDetails,
+		selectHosts,
 	},
 });
 
@@ -218,9 +233,5 @@ export const {
 	openProxyPanel,
 	closeProxyPanel,
 } = appSlice.actions;
-export const {
-	selectSecurityAnalysis,
-	selectOpenedRequestData,
-	selectOpenedRequestId,
-} = appSlice.selectors;
+export const appSliceSelectors = appSlice.selectors;
 export const appReducer = appSlice.reducer;

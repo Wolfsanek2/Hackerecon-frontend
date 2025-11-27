@@ -1,13 +1,11 @@
 .header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     box-sizing: border-box;
     position: sticky;
     top: 0;
-    padding: 2rem;
-    height: var(--header-height);
     border-bottom: var(--border);
+    height: var(--header-height);
     background-color: var(--bg-color);
     z-index: 10;
 
@@ -24,7 +22,7 @@
     &__title-container {
         margin: 0.5rem;
     }
-    
+
     &__title {
         font-weight: normal;
     }
@@ -35,7 +33,7 @@
 
     &__description {
         font-weight: lighter;
-        color: #717182;
+        color: var(--text-secondary-color);
     }
 
     &__llm-button {
@@ -47,4 +45,20 @@
         align-items: center;
         gap: 1rem;
     }
+}
+
+.top-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    min-height: 0;
+    padding: 2rem;
+    border-bottom: var(--border);
+}
+
+.bottom-container {
+    min-height: 0;
+    flex: 1;
+    overflow-y: auto;
 }

@@ -10,9 +10,7 @@ import {
 	StatusBadge,
 	TabList,
 } from '@components';
-import { SVG_SPRITE_URL } from '@consts';
-
-const closeButtonIcon = `${SVG_SPRITE_URL}#close-button`;
+import { CLOSE_BUTTON_ICON_URL } from '@consts';
 
 const RequestDetails: React.FC = () => {
 	const dispatch = useAppDispatch();
@@ -38,7 +36,7 @@ const RequestDetails: React.FC = () => {
 						<Button
 							className="request-details__close-button"
 							onClick={() => dispatch(closeRequestDetails())}
-							svgUrl={closeButtonIcon}
+							svgUrl={CLOSE_BUTTON_ICON_URL}
 						/>
 					</div>
 					<div className="request-details__title-container">

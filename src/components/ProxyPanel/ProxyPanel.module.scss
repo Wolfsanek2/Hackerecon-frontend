@@ -3,6 +3,8 @@
 .proxy-panel {
     display: flex;
     flex-direction: column;
+    position: sticky;
+    top: var(--header-height);
     border-right: var(--border);
     border-bottom: var(--border);
     height: fit-content;
@@ -24,15 +26,15 @@
         padding-right: 0;
         background-color: var(--title-bg-color);
     }
-    
+
     &__header-title {
         font-weight: normal;
     }
-    
+
     &__header-description {
         @include text-secondary;
     }
-    
+
     &__content {
         display: flex;
         flex-direction: column;

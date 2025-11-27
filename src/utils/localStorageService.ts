@@ -1,5 +1,10 @@
 import { LOCAL_STORAGE_KEYS, THEMES } from '@consts';
-import type { LocalStorageKey, RequestData, Theme } from '@/types';
+import type {
+	LLMChatMessage,
+	LocalStorageKey,
+	RequestData,
+	Theme,
+} from '@/types';
 
 class AppLocalStorage {
 	getItem(key: LocalStorageKey) {
@@ -39,12 +44,25 @@ class LocalStorageService {
 		if (!requestsString) {
 			return [];
 		}
-		return JSON.parse(requestsString) as RequestData[];
+		return JSON.parse(requestsString);
 	}
 	set requests(requests: RequestData[]) {
 		this.localStorage.setItem(
 			LOCAL_STORAGE_KEYS.REQUESTS,
 			JSON.stringify(requests)
+		);
+	}
+
+	get llmChatMessages(): LLMChatMessage[] {
+		return JSON.parse(
+			this.localStorage.getItem(LOCAL_STORAGE_KEYS.LLM_CHAT_MESSAGES) ||
+				'[]'
+		);
+	}
+	set llmChatMessages(messages: LLMChatMessage[]) {
+		this.localStorage.setItem(
+			LOCAL_STORAGE_KEYS.LLM_CHAT_MESSAGES,
+			JSON.stringify(messages)
 		);
 	}
 }

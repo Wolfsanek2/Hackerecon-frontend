@@ -1,0 +1,50 @@
+@use '@styles/mixins' as *;
+
+.llm-chat {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30rem;
+    height: 50rem;
+}
+
+.messages {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin: 0 1rem;
+    padding: 0 1rem;
+    overflow: auto;
+    @include scrollbar;
+}
+
+.footer {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 1rem;
+    border: var(--border);
+    border-radius: 2rem;
+    position: sticky;
+    bottom: 0;
+
+    &__title {
+        display: flex;
+    }
+}
+
+.input {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.select {
+    @include text-primary;
+    background-color: var(--btn-bg-color);
+    border: var(--border);
+
+    &:hover {
+        cursor: pointer;
+    }
+}
