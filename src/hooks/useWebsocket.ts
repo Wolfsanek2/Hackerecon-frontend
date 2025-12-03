@@ -1,5 +1,8 @@
 import { useEffect } from 'react';
-import { connect, disconnect } from '@store/slices/websocketSlice';
+import {
+	disconnect,
+	websocketSliceActions,
+} from '@store/slices/websocketSlice';
 import { useAppDispatch, useAppSelector } from '.';
 
 export const useWebsocket = (url: string) => {
@@ -7,7 +10,7 @@ export const useWebsocket = (url: string) => {
 	const websocketState = useAppSelector((state) => state.websocket);
 
 	useEffect(() => {
-		dispatch(connect({ url }));
+		dispatch(websocketSliceActions.connect({ url }));
 
 		return () => {
 			dispatch(disconnect());

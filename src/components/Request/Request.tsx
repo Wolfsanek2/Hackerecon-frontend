@@ -3,7 +3,7 @@ import { appSliceSelectors, openRequestDetails } from '@store/slices/appSlice';
 import type { RequestData } from '@type';
 import { useAppDispatch, useAppSelector } from '@hooks';
 import { MethodBadge, StatusBadge, SvgIcon } from '@components';
-import { WARNING_ICON_URL } from '@consts';
+import { SVG_ICON_URLS } from '@consts';
 
 interface RequestProps {
 	request: RequestData;
@@ -72,7 +72,7 @@ const Request: React.FC<RequestProps> = ({ request }) => {
 			>
 				{request.securityAnalysis.hasVulnerability ? (
 					<SvgIcon
-						svgUrl={WARNING_ICON_URL}
+						svgUrl={SVG_ICON_URLS.WARNING}
 						className={`${styles['warning-icon']} ${
 							isWarningLow ? styles['warning-icon_low'] : ''
 						} ${

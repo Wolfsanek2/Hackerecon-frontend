@@ -1,5 +1,11 @@
+import { WS_STATUS } from '@/consts';
+import type { WebsocketStatus } from '@/types';
 import type { ReportDTO } from '@api';
-import { createAction, createSlice } from '@reduxjs/toolkit';
+import {
+	createAction,
+	createSlice,
+	type PayloadAction,
+} from '@reduxjs/toolkit';
 
 // В общем случае Message - это any, надо сделать определение типа сообщения, когда их будет несколько. Сейчас только один тип, поэтому оставлен костыль
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
@@ -7,37 +13,44 @@ import { createAction, createSlice } from '@reduxjs/toolkit';
 type Message = ReportDTO;
 
 interface WebSocketState {
-	isConnected: boolean;
+	url?: string;
+	status: WebsocketStatus;
 }
 
 const initialState: WebSocketState = {
-	isConnected: false,
+	status: WS_STATUS.DISCONNECTED,
 };
-
-const websocketSlice = createSlice({
-	name: 'websocket',
-	initialState,
-	reducers: {
-		connected: (state) => {
-			state.isConnected = true;
-		},
-		disconnected: (state) => {
-			state.isConnected = false;
-		},
-	},
-});
 
 export interface ConnectPayload {
 	url: string;
 }
 
-export const connect = createAction<ConnectPayload>(
-	`${websocketSlice.name}/connect`
-);
+const websocketSlice = createSlice({
+	name: 'websocket',
+	initialState,
+	reducers: {
+		connect: (state, action: PayloadAction<ConnectPayload>) => {
+			state.url = action.payload.url;
+			state.status = WS_STATUS.CONNECTING;
+		},
+		connected: (state) => {
+			state.status = WS_STATUS.CONNECTED;
+		},
+		disconnected: (state) => {
+			state.status = WS_STATUS.DISCONNECTED;
+		},
+	},
+	selectors: {
+		selectIsConnected: (state) => state.status === WS_STATUS.CONNECTED,
+		selectIsConnecting: (state) => state.status === WS_STATUS.CONNECTING,
+	},
+});
+
 export const disconnect = createAction(`${websocketSlice.name}/disconnect`);
 export const messageReceived = createAction<Message>(
 	`${websocketSlice.name}/messageReceived`
 );
 
-export const { connected, disconnected } = websocketSlice.actions;
+export const websocketSliceActions = websocketSlice.actions;
+export const websocketSliceSelectors = websocketSlice.selectors;
 export const websocketReducer = websocketSlice.reducer;

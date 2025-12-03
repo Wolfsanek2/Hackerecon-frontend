@@ -15,7 +15,6 @@ import Code from './Code';
 import ThemeSwitch from './ThemeSwitch';
 import Headers from './Headers';
 import SvgIcon from './SvgIcon';
-import { LLMPage } from './LLMPage';
 
 export {
 	App,
@@ -35,7 +34,8 @@ export {
 	ThemeSwitch,
 	Headers,
 	SvgIcon,
-	LLMPage,
 };
 
 export * from './Header';
+export * from './LLMPage';
+export * from './Loader';

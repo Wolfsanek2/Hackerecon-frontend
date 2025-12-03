@@ -31,20 +31,4 @@ export default defineConfig([
 			globals: globals.browser,
 		},
 	},
-	{
-		files: ['**/electron.ts'],
-		extends: [
-			js.configs.recommended,
-			reactHooks.configs['recommended-latest'],
-			reactRefresh.configs.vite,
-		],
-		rules: {
-			indent: ['error', 'tab'],
-			'no-console': 'warn',
-		},
-		languageOptions: {
-			ecmaVersion: 2020,
-			globals: { ...globals.browser, ...globals.node },
-		},
-	},
 ]);

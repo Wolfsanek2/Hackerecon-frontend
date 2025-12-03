@@ -4,6 +4,7 @@
     --text-secondary-color: #717182;
     --color-accent: #030213;
     --muted-color: #ececf0;
+    --border-color: #dee1e7;
 
     --warning-low-color: yellow;
     --warning-high-color: red;
@@ -25,7 +26,7 @@
     --font-weight-medium: 500;
 
     // Border
-    --border: 1px solid #dee1e7;
+    --border: 1px solid var(--border-color);
     --btn-border: 0.05rem solid #d3d3d3;
 
     // Transition
@@ -49,6 +50,7 @@
     --color-accent: #f5f6f9;
     --text-secondary-color: #a3a3b3;
     --muted-color: #212128;
+    --border-color: #2c2c36;
 
     // Background
     --title-bg-color: #121217;
@@ -65,7 +67,7 @@
     --font-weight-medium: 500;
 
     // Border
-    --border: 1px solid #2c2c36;
+    --border: 1px solid var(--border-color);
     --btn-border: 0.05rem solid #3a3a45;
 
     // Scrollbar

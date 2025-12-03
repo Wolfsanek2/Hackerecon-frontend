@@ -1,2 +1,3 @@
 export * from './localStorageService';
-export * from './combineClassnames';
+export * from './combineClassNames';
+export * from './websocketService';

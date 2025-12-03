@@ -4,11 +4,16 @@ import { Button, ThemeSwitch } from '@components';
 import { useAppDispatch, useAppSelector } from '@hooks';
 import { closeProxyPanel, openProxyPanel } from '@store/slices/appSlice';
 import { Navbar } from './Navbar';
+import { ConnectionIndicator } from './ConnectionIndicator';
+import { websocketSliceSelectors } from '@/store/slices/websocketSlice';
 
 const Header: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const isProxyPanelOpened = useAppSelector(
 		(state) => state.app.isProxyPanelOpened
+	);
+	const isConnected = useAppSelector(
+		websocketSliceSelectors.selectIsConnected
 	);
 	return (
 		<header className={styles.header}>
@@ -37,6 +42,10 @@ const Header: React.FC = () => {
 					</div>
 				</div>
 				<div className={`${styles['header__right-side']}`}>
+					<ConnectionIndicator
+						isConnected={isConnected}
+						className={styles['connection-indicator']}
+					/>
 					<Button
 						className={`${styles['header__proxy-button']}`}
 						text="Параметры прокси-сервера"

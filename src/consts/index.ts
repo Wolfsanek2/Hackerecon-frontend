@@ -1,8 +1,11 @@
 import type { LocalStorageKeys, Themes } from '@/types';
 
-export const SVG_SPRITE_URL = '/sprites.svg';
-export const WARNING_ICON_URL = `${SVG_SPRITE_URL}#warning`;
-export const CLOSE_BUTTON_ICON_URL = `${SVG_SPRITE_URL}#close-button`;
+const SVG_SPRITE_URL = '/sprites.svg';
+export const SVG_ICON_URLS = {
+	WARNING: `${SVG_SPRITE_URL}#warning`,
+	CLOSE_BUTTON: `${SVG_SPRITE_URL}#close-button`,
+	CONNECTION_INDICATOR: `${SVG_SPRITE_URL}#connection-indicator`,
+};
 
 export const LOCAL_STORAGE_KEYS: LocalStorageKeys = {
 	THEME: 'theme',
@@ -16,3 +19,4 @@ export const THEMES: Themes = {
 };
 
 export * from './api';
+export * from './websocket';
