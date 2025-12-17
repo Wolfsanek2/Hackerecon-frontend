@@ -1,29 +1,25 @@
-import type {
-	AttackSequenceStep,
-	HypothesisEffort,
-	HypothesisImpact,
-	HypothesisStatus,
-} from './hypothesis';
+export interface InvestigationSuggestionDTO {
+	title: string;
+	reasoning: string;
+	affected_endpoints: string[];
+	what_to_check: string[];
+	priority: string;
+	cross_endpoint_pattern: string;
+}
+
+export interface SiteUnderstandingDTO {
+	likely_architecture: string;
+	auth_mechanism: string;
+	data_sensitivity: string;
+	attack_surface_summary: string;
+}
 
 export interface HypothesisDTO {
-	id: string;
-	title: string;
-	description: string;
-	attack_vector: string;
-	target_urls: string[];
-	attack_sequence: AttackSequenceStep[];
-	confidence: number;
-	impact: HypothesisImpact;
-	effort: HypothesisEffort;
-	status: HypothesisStatus;
-	created_at: string;
-	reasoning: string;
-	host: string;
+	investigation_suggestions: InvestigationSuggestionDTO[];
+	site_understanding: SiteUnderstandingDTO;
 }
 
 export interface HypothesisResponse {
 	type: string;
-	data: {
-		hypothesis: HypothesisDTO;
-	};
+	data: HypothesisDTO;
 }

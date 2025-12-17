@@ -1,1 +1,17 @@
 .hypothesis-message {}
+
+.suggestion-title {
+    margin: 1rem 0;
+}
+
+.suggestions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.suggestion {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}

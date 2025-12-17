@@ -8,23 +8,40 @@ interface HypothesisProps {
 export const HypothesisMessage: React.FC<HypothesisProps> = ({
 	hypothesis,
 }) => {
+	const { investigationSuggestions } = hypothesis;
 	return (
 		<div className={styles['hypothesis-message']}>
-			<div>Гипотеза: {hypothesis.title}</div>
-			<div>Описание: {hypothesis.description}</div>
-			<div>Хост: {hypothesis.host}</div>
-			<div>Вектор атаки: {hypothesis.attackVector}</div>
-			<div>
-				<div>Целевые URL: </div>
-				<ul>
-					{hypothesis.targetUrls.map((targetURL, i) => (
-						<li key={i}>{targetURL}</li>
-					))}
-				</ul>
+			<div className={styles['suggestion-title']}>
+				Предлагаемые действия:
 			</div>
-			<div>Влияние: {hypothesis.impact}</div>
-			<div>Затраты: {hypothesis.effort}</div>
-			<div>Обоснование: {hypothesis.reasoning}</div>
+			<div className={styles['suggestions-container']}>
+				{investigationSuggestions.map((suggestion, i) => {
+					return (
+						<div key={i} className={styles.suggestion}>
+							<div>Предложение: {suggestion.title}</div>
+							<div>Обоснование: {suggestion.reasoning}</div>
+							<div>
+								Эндпоинты:
+								<ul>
+									{suggestion.affectedEndpoints.map(
+										(endpoint, i) => {
+											return <li key={i}>{endpoint}</li>;
+										}
+									)}
+								</ul>
+							</div>
+							<div>
+								Последовательность действий:{' '}
+								<ul>
+									{suggestion.whatToCheck.map((step, i) => {
+										return <li key={i}>{step}</li>;
+									})}
+								</ul>
+							</div>
+						</div>
+					);
+				})}
+			</div>
 		</div>
 	);
 };

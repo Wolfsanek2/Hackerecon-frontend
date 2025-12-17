@@ -9,16 +9,23 @@ export interface AttackSequenceStep {
 	expected: string;
 }
 
-export interface Hypothesis {
-	id: string;
+export interface InvestigationSuggestion {
 	title: string;
-	description: string;
-	attackVector: string;
-	targetUrls: string[];
-	attackSequence: AttackSequenceStep[];
-	impact: HypothesisImpact;
-	effort: HypothesisEffort;
-	status: HypothesisStatus;
 	reasoning: string;
-	host: string;
+	affectedEndpoints: string[];
+	whatToCheck: string[];
+	priority: string;
+	// crossEndpointPattern: string;
+}
+
+export interface SiteUnderstanding {
+	likelyArchitecture: string;
+	authMechanism: string;
+	dataSensitivity: string;
+	attackSurfaceSummary: string;
+}
+
+export interface Hypothesis {
+	investigationSuggestions: InvestigationSuggestion[];
+	siteUnderstanding: SiteUnderstanding;
 }
