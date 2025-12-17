@@ -55,38 +55,48 @@ const createMockRequest = (): RequestData => {
 		},
 		securityAnalysis: {
 			hasVulnerability: !!Math.round(Math.random()),
-			riskLevel: generateRiskLevel(),
-			aiComment:
-				'Гипотеза: Сервер полностью доверяет значению, переданному в поле "clicks", и не проверяет его на plausibility, накопление или максимальный лимит. Злоумышленник может отправить чрезвычайно высокое число (например, 1000000) в этом поле, что приведет к немедленному завершению задачи, обходя требуемые усилия или временные затраты. Это классический пример Excessive Trust in Client-Side Input, позволяющий читерство и полный обход бизнес-правил.',
-			securityChecklist: [
+			impact: generateRiskLevel(),
+			summary:
+				'User profile update endpoint with potential authorization bypass',
+			findings: [
 				{
-					action: 'Проверка №1',
-					description: 'Эта проверка нужна, чтобы...',
-					expected: 'Должно произойти...',
+					title: 'IDOR in user profile update - test with different user_id',
+					observation:
+						'Endpoint accepts user_id=123 in request, no session validation visible',
+					testRequests: [
+						{
+							method: 'PUT',
+							url: 'https://example.com/api/users/456/profile',
+							headers: {
+								Authorization: 'Bearer original_token',
+								'Content-Type': 'application/json',
+							},
+							body: '{"name":"Modified Name"}',
+						},
+					],
+					expectedIfVulnerable:
+						'HTTP 200, profile of user 456 gets updated despite token belonging to user 123',
+					expectedIfSafe: 'HTTP 403 Forbidden or validation error',
+					impact: 'high',
 				},
 				{
-					action: 'Проверка №2',
-					description: 'Эта проверка нужна, чтобы...',
-					expected: 'Должно произойти...',
-				},
-			],
-			vulnerabilityTypes: [
-				'Уязвимость 1',
-				'Уязвимость 2',
-				'Уязвимость 3',
-			],
-			extractedSecrets: [
-				{
-					type: 'api ключ',
-					value: crypto.randomUUID(),
-					location: 'example.com/api/example',
-					context: 'Секрет был обнаружен при...',
-				},
-				{
-					type: 'Пароль',
-					value: crypto.randomUUID(),
-					location: 'example.com/api/example',
-					context: 'Секрет был обнаружен при...',
+					title: 'Missing CSRF protection on sensitive operation',
+					observation:
+						'No CSRF token in form, no anti-CSRF headers checked',
+					testRequests: [
+						{
+							method: 'POST',
+							url: 'https://example.com/api/users/123/delete',
+							headers: {
+								Cookie: 'session=abc123',
+							},
+							body: '',
+						},
+					],
+					expectedIfVulnerable:
+						'Request succeeds without additional tokens',
+					expectedIfSafe: 'HTTP 403 or missing CSRF token error',
+					impact: 'critical',
 				},
 			],
 		},
@@ -121,12 +131,10 @@ const initialRequests: RequestData[] = [
 			body: 'body 2, body 2, body 2, body 2, body 2, body 2',
 		},
 		securityAnalysis: {
-			riskLevel: 'high',
+			impact: 'high',
 			hasVulnerability: true,
-			aiComment: 'Это анализ от LLM',
-			securityChecklist: [],
-			vulnerabilityTypes: [],
-			extractedSecrets: [],
+			summary: 'Это summary',
+			findings: [],
 		},
 	},
 	{
@@ -144,12 +152,10 @@ const initialRequests: RequestData[] = [
 			headers: {},
 		},
 		securityAnalysis: {
-			riskLevel: 'low',
+			impact: 'low',
 			hasVulnerability: false,
-			aiComment: '',
-			securityChecklist: [],
-			vulnerabilityTypes: [],
-			extractedSecrets: [],
+			summary: '',
+			findings: [],
 		},
 	},
 	...mockRequests,

@@ -2,76 +2,31 @@ import styles from './LLMPanel.module.scss';
 import { useAppSelector } from '@hooks';
 import { Code } from '@components';
 import { appSliceSelectors } from '@store/slices/appSlice';
+import { Finding } from './Finding';
 
 export const LLMPanel: React.FC = () => {
-	const {
-		aiComment,
-		securityChecklist,
-		vulnerabilityTypes,
-		extractedSecrets,
-	} = useAppSelector(appSliceSelectors.selectSecurityAnalysis);
+	const { summary, findings } = useAppSelector(
+		appSliceSelectors.selectSecurityAnalysis
+	);
 
 	return (
 		<div className={`${styles['llm-panel']}`}>
 			<Code className={`${styles['llm-panel__content']}`}>
-				{!!aiComment && (
+				{!!summary && (
 					<div className={`${styles['llm-panel__paragraph']}`}>
-						{aiComment}
+						{summary}
 					</div>
 				)}
-				{!!vulnerabilityTypes.length && (
-					<div className={`${styles['llm-panel__paragraph']}`}>
-						Найденные уязвимости:
-						<ul
-							className={`${styles['llm-panel__vulnerabilities']}`}
-						>
-							{vulnerabilityTypes.map((vulnerability, i) => (
-								<li key={i}>{vulnerability}</li>
-							))}
-						</ul>
+				<div>
+					<div>Найденные уязвимости:</div>
+					<div className={styles['findings-container']}>
+						{findings.map((finding, i) => (
+							<div key={i}>
+								<Finding finding={finding} />
+							</div>
+						))}
 					</div>
-				)}
-				{!!extractedSecrets.length && (
-					<div className={`${styles['llm-panel__paragraph']}`}>
-						Найденные флаги и секреты:
-						<ul className={`${styles['llm-panel__secrets']}`}>
-							{extractedSecrets.map((secret, i) => (
-								<li
-									key={i}
-									className={`${styles['secret-item']}`}
-								>
-									<div>{`${secret.type}: ${secret.value}`}</div>
-									<div>{`Расположение: ${secret.location}`}</div>
-									<div>{secret.context}</div>
-								</li>
-							))}
-						</ul>
-					</div>
-				)}
-				{!!securityChecklist.length && (
-					<div
-						className={`${styles['llm-panel__paragraph']} ${styles['checklist']}`}
-					>
-						Чек-лист:
-						{securityChecklist.map(
-							({ action, description, expected }, index) => {
-								return (
-									<span
-										key={index}
-										className={`${styles['checklist__item']}`}
-									>
-										{`${index + 1}. ${action}` +
-											'\n' +
-											description +
-											'\n' +
-											`Ожидание: ${expected}` +
-											'\n'}
-									</span>
-								);
-							}
-						)}
-					</div>
-				)}
+				</div>
 			</Code>
 		</div>
 	);

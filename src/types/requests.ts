@@ -15,13 +15,30 @@ export interface ExtractedSecret {
 	location: string;
 }
 
+export type Effort = 'low' | 'medium' | 'high' | 'critical';
+export type Impact = 'low' | 'medium' | 'high' | 'critical';
+
+export interface TestRequest {
+	method: string;
+	url: string;
+	headers: Headers;
+	body: string;
+}
+
+export interface Finding {
+	title: string;
+	observation: string;
+	testRequests: TestRequest[];
+	expectedIfVulnerable: string;
+	expectedIfSafe: string;
+	impact: Impact;
+}
+
 export interface SecurityAnalysis {
+	summary: string;
+	findings: Finding[];
 	hasVulnerability: boolean;
-	riskLevel: RiskLevel;
-	aiComment: string;
-	securityChecklist: SecurityCheckItem[];
-	vulnerabilityTypes: string[];
-	extractedSecrets: ExtractedSecret[];
+	impact: Impact;
 }
 
 export interface RequestData {

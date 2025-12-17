@@ -15,7 +15,7 @@ const Request: React.FC<RequestProps> = ({ request }) => {
 	let isWarningLow = false;
 	let isWarningHigh = false;
 	if (request.securityAnalysis.hasVulnerability) {
-		switch (request.securityAnalysis.riskLevel) {
+		switch (request.securityAnalysis.impact) {
 			case 'low':
 			case 'medium':
 				isWarningLow = true;

@@ -1,8 +1,11 @@
 import type {
+	Effort,
+	Finding,
+	Impact,
 	RequestData,
 	RequestResponseDetails,
-	RiskLevel,
 	SecurityAnalysis,
+	TestRequest,
 } from '@/types';
 
 export type Headers = Record<string, string>;
@@ -31,22 +34,27 @@ export interface ExtractedSecret {
 	location: string;
 }
 
-export interface SecurityAnalysisResponse {
-	has_vulnerability: boolean;
-	risk_level: RiskLevel;
-	ai_comment: string;
-	security_checklist?: SecurityCheckItem[];
-	vulnerability_types?: string[];
-	confidence_score?: number;
-	extracted_secrets?: ExtractedSecret[];
-	timestamp: string;
-	identified_user_role?: string;
+interface FindingDTO {
+	title: string;
+	observation: string;
+	test_requests: TestRequest[];
+	expected_if_vulnerable: string;
+	expected_if_safe: string;
+	effort: Effort;
+	impact: Impact;
+	verification_status: string;
+	verification_reason: string;
+}
+
+export interface SecurityAnalysisResult {
+	summary: string;
+	findings: FindingDTO[];
 }
 
 export interface VulnerabilityReport {
 	id: string;
 	timestamp: string;
-	analysis_result: SecurityAnalysisResponse;
+	analysis_result: SecurityAnalysisResult;
 }
 
 export interface ReportDTO {
@@ -74,16 +82,47 @@ export const requestResponseToResponseData = (
 	};
 };
 
+const getImpactFromFindings = (findings: FindingDTO[]): Impact => {
+	return findings.reduce<Impact>((impact, finding) => {
+		switch (finding.impact) {
+			case 'critical':
+				return finding.impact;
+			case 'high':
+				if (impact !== 'critical') {
+					return finding.impact;
+				}
+				break;
+			case 'medium':
+				if (impact !== 'critical' && impact !== 'high') {
+					return finding.impact;
+				}
+				break;
+			case 'low':
+				return impact;
+		}
+		return impact;
+	}, 'low');
+};
+
+const GetFindingFromDTO = (finding: FindingDTO): Finding => {
+	return {
+		title: finding.title,
+		observation: finding.observation,
+		testRequests: finding.test_requests,
+		expectedIfVulnerable: finding.expected_if_vulnerable,
+		expectedIfSafe: finding.expected_if_safe,
+		impact: finding.impact,
+	};
+};
+
 export const securityAnalysisFromDTO = (
-	securityAnalysis: SecurityAnalysisResponse
+	securityAnalysis: SecurityAnalysisResult
 ): SecurityAnalysis => {
 	return {
-		hasVulnerability: securityAnalysis.has_vulnerability,
-		riskLevel: securityAnalysis.risk_level,
-		aiComment: securityAnalysis.ai_comment,
-		securityChecklist: securityAnalysis.security_checklist || [],
-		vulnerabilityTypes: securityAnalysis.vulnerability_types || [],
-		extractedSecrets: securityAnalysis.extracted_secrets || [],
+		summary: securityAnalysis.summary,
+		hasVulnerability: securityAnalysis.findings.length > 0,
+		impact: getImpactFromFindings(securityAnalysis.findings),
+		findings: securityAnalysis.findings.map(GetFindingFromDTO),
 	};
 };
 
