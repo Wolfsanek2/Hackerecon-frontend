@@ -18,3 +18,5 @@ npm run preview
 docker build -t hackerecon-frontend .
 docker run -p 4173:4173 hackerecon-frontend
 ```
+
+Backend: https://github.com/BetterCallFirewall/Hackerecon-backend
