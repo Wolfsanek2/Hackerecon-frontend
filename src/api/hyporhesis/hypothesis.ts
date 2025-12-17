@@ -6,7 +6,7 @@ const hypothesisUrl = (host: string) => `${HYPOTHESIS_URL}/${host}`;
 
 const fetchHypothesis = async (host: string) => {
 	console.log('fetch', host);
-	const response = await fetch(hypothesisUrl(host));
+	const response = await fetch(hypothesisUrl(host), { method: 'POST' });
 	const responseData = (await response.json()) as HypothesisResponse;
 	return HypothesisFromDTO(responseData.data.hypothesis);
 };
